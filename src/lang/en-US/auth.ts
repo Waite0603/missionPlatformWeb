@@ -10,6 +10,9 @@ export default {
 		submit: 'Sign In',
 		hasNoAccount: 'Don\'t have an account?',
 		register: 'Sign Up',
-		orWith: 'Or With'
+		orWith: 'Or With',
+		emailError: 'Please enter your email',
+		emailFormatError: 'Please enter the correct email format',
+		passwordError: 'Please enter your password'
 	}
 }

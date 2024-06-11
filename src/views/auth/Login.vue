@@ -55,7 +55,9 @@
 
 			<p class="p">
 				{{ $t('auth.login.hasNoAccount') }}
-				<a class="span" href="/auth/register">{{ $t('auth.login.register') }}</a>
+				<a class="span" href="/auth/register">{{
+					$t('auth.login.register')
+				}}</a>
 			</p>
 			<p class="p line">{{ $t('auth.login.orWith') }}</p>
 
@@ -74,6 +76,11 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import Checkbox from 'primevue/checkbox'
+import { i18n } from '@/lang/index'
+
+const $t = i18n.global.t
+
+console.log($t('auth.login.title'))
 
 const loginFrom = reactive({
 	email: '',
@@ -112,13 +119,14 @@ const validate = () => {
 	let flag = true
 
 	if (!loginFrom.email) {
-		loginFromValidate.email = 'Please enter your email'
+		loginFromValidate.email = $t('auth.login.emailError')
+
 		flag = false
 	} else {
 		if (
 			!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginFrom.email)
 		) {
-			loginFromValidate.email = 'Please enter the correct email format'
+			loginFromValidate.email = $t('auth.login.emailFormatError')
 			flag = false
 		} else {
 			loginFromValidate.email = ''
@@ -126,7 +134,7 @@ const validate = () => {
 	}
 
 	if (!loginFrom.password) {
-		loginFromValidate.password = 'Please enter your password'
+		loginFromValidate.password = $t('auth.login.passwordError')
 
 		flag = false
 	} else {
