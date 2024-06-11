@@ -27,9 +27,10 @@ module.exports = {
 	},
 	plugins: ['@typescript-eslint', 'vue'],
 	rules: {
-		indent: ['error', 'tab'],
-		'linebreak-style': ['error', 'unix'],
-		quotes: ['error', 'single'],
-		semi: ['error', 'never']
+		indent: ['error', 'tab'], // 使用 tab 缩进
+		'linebreak-style': ['error', 'unix'], // 换行符使用 Unix
+		quotes: ['error', 'single'],  // 使用单引号
+		semi: ['error', 'never'], // 不使用分号
+		'vue/multi-word-component-names': 'off' // 不提示多个单词组成的组件名
 	}
 }
