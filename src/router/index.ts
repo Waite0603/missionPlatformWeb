@@ -4,14 +4,21 @@ const routes = createRouter({
 	history: createWebHistory(),
 	routes: [
 		{
-			path: '/login',
-			name: 'Login',
-			component: () => import('@/views/Login.vue')
-		},
-		{
-			path: '/register',
-			name: 'Register',
-			component: () => import('@/views/Register.vue')
+			path: '/auth',
+			name: 'auth',
+			component: () => import('@/views/auth/Index.vue'),
+			children: [
+				{
+					path: 'login',
+					name: 'login',
+					component: () => import('@/views/auth/Login.vue')
+				},
+				{
+					path: 'register',
+					name: 'register',
+					component: () => import('@/views/auth/Register.vue')
+				}
+			]
 		}
 	]
 })

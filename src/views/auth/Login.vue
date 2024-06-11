@@ -1,17 +1,17 @@
 <template>
 	<div class="login">
 		<form class="form" @submit="handleSubmit">
-			<h1 class="title">Sign In</h1>
+			<h1 class="title">{{ $t('auth.login.title') }}</h1>
 
 			<div class="flex-column">
-				<label>Email </label>
+				<label> {{ $t('auth.login.email') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-user"></span>
 				<input
 					type="text"
 					class="input"
-					placeholder="Enter your Email"
+					:placeholder="$t('auth.login.emailPlaceholder')"
 					v-model="loginFrom.email"
 					autocomplete="current-email"
 					@blur="validate"
@@ -21,7 +21,7 @@
 				{{ loginFromValidate.email }}
 			</span>
 			<div class="flex-column">
-				<label>Password </label>
+				<label> {{ $t('auth.login.password') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-lock"></span>
@@ -29,7 +29,7 @@
 					type="password"
 					class="input"
 					id="password-input"
-					placeholder="Enter your Password"
+					:placeholder="$t('auth.login.passwordPlaceholder')"
 					v-model="loginFrom.password"
 					autocomplete="current-password"
 					@blur="validate"
@@ -44,15 +44,20 @@
 			<div class="flex-row">
 				<div class="remember">
 					<Checkbox v-model="checked" :binary="true" />
-					<span>Remember me</span>
+					<span>{{ $t('auth.login.rememberMe') }}</span>
 				</div>
-				<span class="span">Forgot password?</span>
+				<span class="span">{{ $t('auth.login.forgetPassword') }}</span>
 			</div>
 
-			<button class="button-submit" type="submit">Sign In</button>
+			<button class="button-submit" type="submit">
+				{{ $t('auth.login.submit') }}
+			</button>
 
-			<p class="p">Don't have an account? <a class="span">Sign up</a></p>
-			<p class="p line">Or With</p>
+			<p class="p">
+				{{ $t('auth.login.hasNoAccount') }}
+				<a class="span" href="/auth/register">{{ $t('auth.login.register') }}</a>
+			</p>
+			<p class="p line">{{ $t('auth.login.orWith') }}</p>
 
 			<div class="flex-row">
 				<button class="btn google" type="button">
@@ -67,17 +72,29 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Checkbox from 'primevue/checkbox'
 
 const loginFrom = reactive({
 	email: '',
 	password: ''
 })
-
+const checked = ref(false)
 const loginFromValidate = reactive({
 	email: '',
 	password: ''
+})
+
+// 初始化
+onMounted(() => {
+	const email = localStorage.getItem('email')
+	const password = localStorage.getItem('password')
+
+	if (email && password) {
+		loginFrom.email = email
+		loginFrom.password = password
+		checked.value = true
+	}
 })
 
 // 显示密码
@@ -119,8 +136,6 @@ const validate = () => {
 	return flag
 }
 
-const checked = ref(false)
-
 const handleSubmit = (event) => {
 	// 中止默认表单提交
 	event.preventDefault()
@@ -137,5 +152,3 @@ const handleSubmit = (event) => {
 	alert('登录成功')
 }
 </script>
-
-<style src="@/assets/css/auth.scss"></style>

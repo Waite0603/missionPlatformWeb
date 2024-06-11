@@ -25,7 +25,7 @@
 				<label>Email </label>
 			</div>
 			<div class="inputForm">
-				<span class="pi pi-user"></span>
+				<span class="pi pi-envelope"></span>
 				<input
 					type="text"
 					class="input"
@@ -63,7 +63,7 @@
 				<label>Confirm Password </label>
 			</div>
 			<div class="inputForm">
-				<span class="pi pi-lock"></span>
+				<span class="pi pi-unlock"></span>
 				<input
 					type="password"
 					class="input"
@@ -123,7 +123,7 @@
 
 			<!-- has account -->
 			<p class="p">
-				Already have an account? <a class="span" href="/login">Sign In</a>
+				Already have an account? <a class="span" href="/auth/login">Sign In</a>
 			</p>
 
 			<button class="button-submit" type="submit">Sign Up</button>
@@ -142,6 +142,8 @@ const RegisterFrom = reactive({
 	phone: '',
 	verificationCode: ''
 })
+
+const submitVerificationStatus = ref(false)
 
 const RegisterFromValidate = reactive({
 	user: '',
@@ -167,6 +169,10 @@ const showPassword = (scope) => {
 
 // 表单验证
 const validate = () => {
+	if (!submitVerificationStatus.value) {
+		return
+	}
+
 	let flag = true
 
 	if (!RegisterFrom.user) {
@@ -272,6 +278,7 @@ const getCode = () => {
 }
 
 const handleSubmit = (event) => {
+	submitVerificationStatus.value = true
 	event.preventDefault()
 
 	if (!validate()) {
