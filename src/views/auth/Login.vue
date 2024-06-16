@@ -74,13 +74,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import Checkbox from 'primevue/checkbox'
 import { i18n } from '@/lang/index'
 
+// 国际化
 const $t = i18n.global.t
-
-console.log($t('auth.login.title'))
+const locale = i18n.global.locale
 
 const loginFrom = reactive({
 	email: '',
@@ -104,6 +104,11 @@ onMounted(() => {
 	}
 })
 
+// 切换中英文
+watch(locale, () => {
+	validate()
+})
+
 // 显示密码
 const showPassword = () => {
 	const passwordInput = document.getElementById('password-input')
@@ -114,6 +119,7 @@ const showPassword = () => {
 		passwordInput.type = 'password'
 	}
 }
+
 // 表单验证
 const validate = () => {
 	let flag = true

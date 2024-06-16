@@ -14,5 +14,36 @@ export default {
 		emailError: '请输入你的电子邮件',
 		emailFormatError: '请输入正确的电子邮件格式',
 		passwordError: '请输入你的密码'
+	},
+	register: {
+		title: '注册',
+		username: '用户名',
+		usernamePlaceholder: '请输入你的用户名',
+		email: '电子邮件',
+		emailPlaceholder: '请输入你的电子邮件',
+		password: '密码',
+		passwordPlaceholder: '请输入你的密码',
+		confirmPassword: '确认密码',
+		confirmPasswordPlaceholder: '请确认你的密码',
+		phone: '电话',
+		phonePlaceholder: '请输入你的电话',
+		getCode: '获取验证码',
+		verificationCode: '验证码',
+		verificationCodePlaceholder: '请输入你的验证码',
+		submit: '注册',
+		hasAccount: '已经有账户了吗？',
+		login: '登录',
+
+		usernameError: '请输入你的用户名',
+		usernameLengthError: '用户名必须是3-20个字符',
+		emailError: '请输入你的电子邮件',
+		emailFormatError: '请输入正确的电子邮件格式',
+		passwordError: '请输入你的密码',
+		passwordLengthError: '密码必须至少有6个字符',
+		confirmPasswordError: '请确认你的密码',
+		passwordInconsistentError: '两次输入的密码不一致',
+		phoneError: '请输入你的电话',
+		phoneFormatError: '请输入正确的电话格式',
+		verificationCodeError: '请输入你的验证码'
 	}
 }

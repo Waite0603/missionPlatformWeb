@@ -1,17 +1,17 @@
 <template>
 	<div class="register">
 		<form class="form" @submit="handleSubmit">
-			<h1 class="title">Sign Up</h1>
+			<h1 class="title">{{ $t('auth.register.title') }}</h1>
 
 			<div class="flex-column">
-				<label>Username </label>
+				<label>{{ $t('auth.register.username') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-user"></span>
 				<input
 					type="text"
 					class="input"
-					placeholder="Enter your User Name"
+					:placeholder="$t('auth.register.usernamePlaceholder')"
 					v-model="RegisterFrom.user"
 					autocomplete="current-username"
 					@blur="validate"
@@ -22,14 +22,14 @@
 			</span>
 
 			<div class="flex-column">
-				<label>Email </label>
+				<label>{{ $t('auth.register.email') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-envelope"></span>
 				<input
 					type="text"
 					class="input"
-					placeholder="Enter your Email"
+					:placeholder="$t('auth.register.emailPlaceholder')"
 					v-model="RegisterFrom.email"
 					autocomplete="current-email"
 					@blur="validate"
@@ -40,7 +40,7 @@
 			</span>
 
 			<div class="flex-column">
-				<label>Password </label>
+				<label>{{ $t('auth.register.password') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-lock"></span>
@@ -48,7 +48,7 @@
 					type="password"
 					class="input"
 					id="password-input"
-					placeholder="Enter your Password"
+					:placeholder="$t('auth.register.passwordPlaceholder')"
 					v-model="RegisterFrom.password"
 					autocomplete="current-password"
 					@blur="validate"
@@ -60,14 +60,14 @@
 			</span>
 
 			<div class="flex-column">
-				<label>Confirm Password </label>
+				<label>{{ $t('auth.register.confirmPassword') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-unlock"></span>
 				<input
 					type="password"
 					class="input"
-					placeholder="Enter your Password"
+					:placeholder="$t('auth.register.confirmPasswordPlaceholder')"
 					v-model="RegisterFrom.passwordConfirm"
 					autocomplete="current-password"
 					@blur="validate"
@@ -79,14 +79,14 @@
 			</span>
 
 			<div class="flex-column">
-				<label>Phone </label>
+				<label>{{ $t('auth.register.phone') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-phone"></span>
 				<input
 					type="text"
 					class="input"
-					placeholder="Enter your Phone"
+					:placeholder="$t('auth.register.phonePlaceholder')"
 					v-model="RegisterFrom.phone"
 					autocomplete="current-phone"
 					@blur="validate"
@@ -100,14 +100,14 @@
 			</span>
 
 			<div class="flex-column">
-				<label>Verification Code </label>
+				<label>{{ $t('auth.register.verificationCode') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-key"></span>
 				<input
 					type="text"
 					class="input"
-					placeholder="Enter your Verification Code"
+					:placeholder="$t('auth.register.verificationCodePlaceholder')"
 					v-model="RegisterFrom.verificationCode"
 					autocomplete="current-verificationCode"
 					@blur="validate"
@@ -123,16 +123,23 @@
 
 			<!-- has account -->
 			<p class="p">
-				Already have an account? <a class="span" href="/auth/login">Sign In</a>
+				{{ $t('auth.register.hasAccount') }}
+				<a class="span" href="/auth/login">{{ $t('auth.register.login') }}</a>
 			</p>
 
-			<button class="button-submit" type="submit">Sign Up</button>
+			<button class="button-submit" type="submit">
+				{{ $t('auth.register.submit') }}
+			</button>
 		</form>
 	</div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
+import { i18n } from '@/lang/index'
+
+const $t = i18n.global.t
+const locale = i18n.global.locale
 
 const RegisterFrom = reactive({
 	user: '',
@@ -154,7 +161,14 @@ const RegisterFromValidate = reactive({
 	verificationCode: ''
 })
 
-const codeverify_state = ref('Get Code')
+let codeverify_state = ref($t('auth.register.getCode'))
+
+// 切换中英文, 重置 codeverify_state
+// 监听 locale 的变化，当 locale 变化时，更新 codeverify_state 的值
+watch(locale, () => {
+	codeverify_state.value = $t('auth.register.getCode')
+	validate()
+})
 
 // 显示密码, 传入作用域
 const showPassword = (scope) => {
@@ -176,12 +190,11 @@ const validate = () => {
 	let flag = true
 
 	if (!RegisterFrom.user) {
-		RegisterFromValidate.user = 'Please enter your user name'
+		RegisterFromValidate.user = $t('auth.register.usernamePlaceholder')
 		flag = false
 	} else {
 		if (2 > RegisterFrom.user.length || RegisterFrom.user.length > 20) {
-			RegisterFromValidate.user =
-				'User name must be between 2 and 20 characters'
+			RegisterFromValidate.user = $t('auth.register.usernameLengthError')
 			flag = false
 		} else {
 			RegisterFromValidate.user = ''
@@ -189,13 +202,13 @@ const validate = () => {
 	}
 
 	if (!RegisterFrom.email) {
-		RegisterFromValidate.email = 'Please enter your email'
+		RegisterFromValidate.email = $t('auth.register.emailError')
 		flag = false
 	} else {
 		if (
 			!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(RegisterFrom.email)
 		) {
-			RegisterFromValidate.email = 'Please enter the correct email format'
+			RegisterFromValidate.email = $t('auth.register.emailFormatError')
 			flag = false
 		} else {
 			RegisterFromValidate.email = ''
@@ -203,11 +216,11 @@ const validate = () => {
 	}
 
 	if (!RegisterFrom.password) {
-		RegisterFromValidate.password = 'Please enter your password'
+		RegisterFromValidate.password = $t('auth.register.passwordError')
 		flag = false
 	} else {
 		if (RegisterFrom.password.length < 6) {
-			RegisterFromValidate.password = 'Password must be at least 6 characters'
+			RegisterFromValidate.password = $t('auth.register.passwordLengthError')
 			flag = false
 		} else {
 			RegisterFromValidate.password = ''
@@ -215,11 +228,15 @@ const validate = () => {
 	}
 
 	if (!RegisterFrom.passwordConfirm) {
-		RegisterFromValidate.passwordConfirm = 'Please enter your password'
+		RegisterFromValidate.passwordConfirm = $t(
+			'auth.register.confirmPasswordError'
+		)
 		flag = false
 	} else {
 		if (RegisterFrom.password !== RegisterFrom.passwordConfirm) {
-			RegisterFromValidate.passwordConfirm = 'Password does not match'
+			RegisterFromValidate.passwordConfirm = $t(
+				'auth.register.passwordInconsistentError'
+			)
 
 			flag = false
 		} else {
@@ -228,11 +245,11 @@ const validate = () => {
 	}
 
 	if (!RegisterFrom.phone) {
-		RegisterFromValidate.phone = 'Please enter your phone'
+		RegisterFromValidate.phone = $t('auth.register.phoneError')
 		flag = false
 	} else {
 		if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(RegisterFrom.phone)) {
-			RegisterFromValidate.phone = 'Please enter the correct phone format'
+			RegisterFromValidate.phone = $t('auth.register.phoneFormatError')
 			flag = false
 		} else {
 			RegisterFromValidate.phone = ''
@@ -240,8 +257,9 @@ const validate = () => {
 	}
 
 	if (!RegisterFrom.verificationCode) {
-		RegisterFromValidate.verificationCode =
-			'Please enter your verification code'
+		RegisterFromValidate.verificationCode = $t(
+			'auth.register.verificationCodeError'
+		)
 		flag = false
 	} else {
 		RegisterFromValidate.verificationCode = ''
@@ -253,16 +271,17 @@ const validate = () => {
 // 获取验证码
 const getCode = () => {
 	if (!RegisterFrom.phone) {
-		RegisterFromValidate.phone = 'Please enter your phone'
+		RegisterFromValidate.phone = $t('auth.register.phoneError')
 		return
 	}
 
 	if (!/^[1][3,4,5,7,8][0-9]{9}$/.test(RegisterFrom.phone)) {
-		RegisterFromValidate.phone = 'Please enter the correct phone format'
+		RegisterFromValidate.phone = $t('auth.register.phoneFormatError')
 		return
 	}
 
-	if (codeverify_state.value !== 'Get Code') {
+	const getCodeText = $t('auth.register.getCode')
+	if (codeverify_state.value !== getCodeText) {
 		return
 	}
 
@@ -272,7 +291,7 @@ const getCode = () => {
 		codeverify_state.value = `${count}s`
 		if (count === 0) {
 			clearInterval(timer)
-			codeverify_state.value = 'Get Code'
+			codeverify_state.value = getCodeText
 		}
 	}, 1000)
 }
