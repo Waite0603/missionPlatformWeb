@@ -1,6 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+	createRouter,
+	createWebHistory,
+	RouteLocationNormalized
+} from 'vue-router'
 
-const routes = createRouter({
+const router = createRouter({
 	history: createWebHistory(),
 	routes: [
 		{
@@ -23,4 +27,19 @@ const routes = createRouter({
 	]
 })
 
-export default routes
+router.beforeEach(
+	(
+		to: RouteLocationNormalized,
+		from: RouteLocationNormalized,
+		next: () => void
+	) => {
+		console.log(from, document)
+		console.log(to)
+		if (to.name) {
+			document.title = String(to.name)
+		}
+		next()
+	}
+)
+
+export default router

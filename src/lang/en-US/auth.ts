@@ -14,7 +14,7 @@ export default {
 		emailError: 'Please enter your email',
 		emailFormatError: 'Please enter the correct email format',
 		passwordError: 'Please enter your password'
-	},
+	},  
 	register: {
 		title: 'Sign Up',
 		username: 'Username',
