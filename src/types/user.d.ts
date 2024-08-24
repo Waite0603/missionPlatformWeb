@@ -13,6 +13,13 @@ export type LoginParams = {
 	password: string
 }
 
+// RegisterParams
+export type RegisterParams = {
+  username: string
+  password: string
+  phone: string
+  verify_code: string
+}
 // 用户 token
 export type UserToken = {
 	access: string

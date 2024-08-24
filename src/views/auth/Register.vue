@@ -12,13 +12,13 @@
 					type="text"
 					class="input"
 					:placeholder="$t('auth.register.usernamePlaceholder')"
-					v-model="RegisterFrom.user"
+					v-model="RegisterFrom.username"
 					autocomplete="current-username"
 					@blur="validate"
 				/>
 			</div>
-			<span class="error-message" v-show="RegisterFromValidate.user">
-				{{ RegisterFromValidate.user }}
+			<span class="error-message" v-show="RegisterFromValidate.username">
+				{{ RegisterFromValidate.username }}
 			</span>
 
 			<div class="flex-column">
@@ -127,8 +127,9 @@
 				<a class="span" href="/auth/login">{{ $t('auth.register.login') }}</a>
 			</p>
 
-			<button class="button-submit" type="submit">
-				{{ $t('auth.register.submit') }}
+			<button class="button-submit" type="submit" :disabled="isLoading">
+				<span v-if="isLoading"></span>
+				<span v-else>{{ $t('auth.register.submit') }}</span>
 			</button>
 		</form>
 	</div>
@@ -137,23 +138,26 @@
 <script setup>
 import { ref, reactive, watch } from 'vue'
 import { i18n } from '@/lang/index'
+import { useToast } from 'primevue/usetoast'
+import { getCaptcha, handRegister } from '@/api/auth'
+import { useRouter } from 'vue-router'
 
 const $t = i18n.global.t
 const locale = i18n.global.locale
+const toast = useToast()
+const router = useRouter()
 
 const RegisterFrom = reactive({
-	user: '',
+	username: '',
 	email: '',
 	password: '',
 	passwordConfirm: '',
 	phone: '',
 	verificationCode: ''
 })
-
-const submitVerificationStatus = ref(false)
 
 const RegisterFromValidate = reactive({
-	user: '',
+	username: '',
 	email: '',
 	password: '',
 	passwordConfirm: '',
@@ -161,10 +165,13 @@ const RegisterFromValidate = reactive({
 	verificationCode: ''
 })
 
+// 提交验证状态, 默认为 false, 当为 true 时, 表单验证才会生效
+const submitVerificationStatus = ref(false)
+// 正在加载状态
+const isLoading = ref(false)
+// 获取验证码状态
 let codeverify_state = ref($t('auth.register.getCode'))
-
 // 切换中英文, 重置 codeverify_state
-// 监听 locale 的变化，当 locale 变化时，更新 codeverify_state 的值
 watch(locale, () => {
 	codeverify_state.value = $t('auth.register.getCode')
 	validate()
@@ -189,15 +196,15 @@ const validate = () => {
 
 	let flag = true
 
-	if (!RegisterFrom.user) {
-		RegisterFromValidate.user = $t('auth.register.usernamePlaceholder')
+	if (!RegisterFrom.username) {
+		RegisterFromValidate.username = $t('auth.register.usernamePlaceholder')
 		flag = false
 	} else {
-		if (2 > RegisterFrom.user.length || RegisterFrom.user.length > 20) {
-			RegisterFromValidate.user = $t('auth.register.usernameLengthError')
+		if (2 > RegisterFrom.username.length || RegisterFrom.username.length > 20) {
+			RegisterFromValidate.username = $t('auth.register.usernameLengthError')
 			flag = false
 		} else {
-			RegisterFromValidate.user = ''
+			RegisterFromValidate.username = ''
 		}
 	}
 
@@ -269,7 +276,7 @@ const validate = () => {
 }
 
 // 获取验证码
-const getCode = () => {
+const getCode = async () => {
 	if (!RegisterFrom.phone) {
 		RegisterFromValidate.phone = $t('auth.register.phoneError')
 		return
@@ -285,6 +292,16 @@ const getCode = () => {
 		return
 	}
 
+	RegisterFromValidate.phone = ''
+
+	const res = await getCaptcha(RegisterFrom.phone)
+
+	toast.add({
+		severity: 'info',
+		summary: $t('toast.info'),
+		detail: res.msg,
+		life: 3000
+	})
 	let count = 60
 	const timer = setInterval(() => {
 		count--
@@ -296,7 +313,7 @@ const getCode = () => {
 	}, 1000)
 }
 
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
 	submitVerificationStatus.value = true
 	event.preventDefault()
 
@@ -304,10 +321,35 @@ const handleSubmit = (event) => {
 		return
 	}
 
-	console.log(RegisterFrom)
+	if (isLoading.value) {
+		return
+	}
 
-	alert('登录成功')
+	isLoading.value = true
+
+	const res = await handRegister(RegisterFrom)
+	console.log('res', res)
+
+	if (res.code === 200) {
+		toast.add({
+			severity: 'success',
+			summary: $t('toast.success'),
+			detail: res.msg,
+			life: 3000
+		})
+
+		setTimeout(() => {
+			router.push('/auth/login')
+		}, 2000)
+	} else {
+		toast.add({
+			severity: 'error',
+			summary: $t('toast.error'),
+			detail: res.msg,
+			life: 3000
+		})
+	}
+
+	isLoading.value = false
 }
 </script>
-
-<style src="@/assets/css/auth.scss"></style>

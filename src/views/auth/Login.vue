@@ -183,10 +183,12 @@ const handleSubmit = async (event) => {
 			localStorage.removeItem('rememberMe')
 		}
 
-		// pinia
-		userStore.setUserInfo(res.data)
 		// token
 		localStorage.setItem('token', JSON.stringify(res.data.token))
+		// del token
+		delete res.data.token
+		// pinia
+		userStore.setUserInfo(res.data)
 
 		toast.add({
 			severity: 'success',
