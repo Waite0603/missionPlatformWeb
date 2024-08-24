@@ -9,8 +9,8 @@ export interface UserState {
 
 // LoginParams
 export type LoginParams = {
-  username: string
-  password: string
+	username: string
+	password: string
 }
 
 // 用户信息

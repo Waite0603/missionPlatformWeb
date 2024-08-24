@@ -78,6 +78,7 @@ import { ref, reactive, onMounted, watch } from 'vue'
 import Checkbox from 'primevue/checkbox'
 import { i18n } from '@/lang/index'
 import { handLogin } from '@/api/auth'
+import { useToast } from 'primevue/usetoast'
 
 // 国际化
 const $t = i18n.global.t
@@ -144,6 +145,8 @@ const validate = () => {
 	return flag
 }
 
+// 导入提示
+const toast = useToast()
 const handleSubmit = (event) => {
 	// 中止默认表单提交
 	event.preventDefault()
@@ -151,8 +154,13 @@ const handleSubmit = (event) => {
 	if (!validate()) {
 		return
 	}
-
-	console.log(loginFrom)
 	handLogin(loginFrom)
+
+	toast.add({
+		severity: 'warn',
+		summary: 'Success Message',
+		detail: 'Message Content',
+		life: 3000
+	})
 }
 </script>
