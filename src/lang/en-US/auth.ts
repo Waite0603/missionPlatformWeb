@@ -3,6 +3,8 @@ export default {
 		title: 'Sign In',
 		email: 'Email',
 		emailPlaceholder: 'Enter your email',
+		username: 'Username',
+		usernamePlaceholder: 'Enter your username',
 		password: 'Password',
 		passwordPlaceholder: 'Enter your password',
 		rememberMe: 'Remember me',
@@ -13,8 +15,9 @@ export default {
 		orWith: 'Or With',
 		emailError: 'Please enter your email',
 		emailFormatError: 'Please enter the correct email format',
+		usernameError: 'Please enter your username',
 		passwordError: 'Please enter your password'
-	},  
+	},
 	register: {
 		title: 'Sign Up',
 		username: 'Username',

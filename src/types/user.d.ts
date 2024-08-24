@@ -7,6 +7,12 @@ export interface UserState {
 	clearState: () => void
 }
 
+// LoginParams
+export type LoginParams = {
+  username: string
+  password: string
+}
+
 // 用户信息
 export type UserInfo = {
 	id: number

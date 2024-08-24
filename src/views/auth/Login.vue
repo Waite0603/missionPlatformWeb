@@ -4,21 +4,21 @@
 			<h1 class="title">{{ $t('auth.login.title') }}</h1>
 
 			<div class="flex-column">
-				<label> {{ $t('auth.login.email') }} </label>
+				<label> {{ $t('auth.login.username') }} </label>
 			</div>
 			<div class="inputForm">
 				<span class="pi pi-user"></span>
 				<input
 					type="text"
 					class="input"
-					:placeholder="$t('auth.login.emailPlaceholder')"
-					v-model="loginFrom.email"
-					autocomplete="current-email"
+					:placeholder="$t('auth.login.usernamePlaceholder')"
+					v-model="loginFrom.username"
+					autocomplete="current-username"
 					@blur="validate"
 				/>
 			</div>
-			<span class="error-message" v-show="loginFromValidate.email">
-				{{ loginFromValidate.email }}
+			<span class="error-message" v-show="loginFromValidate.username">
+				{{ loginFromValidate.username }}
 			</span>
 			<div class="flex-column">
 				<label> {{ $t('auth.login.password') }} </label>
@@ -77,28 +77,29 @@
 import { ref, reactive, onMounted, watch } from 'vue'
 import Checkbox from 'primevue/checkbox'
 import { i18n } from '@/lang/index'
+import { handLogin } from '@/api/auth'
 
 // 国际化
 const $t = i18n.global.t
 const locale = i18n.global.locale
 
 const loginFrom = reactive({
-	email: '',
+	username: '',
 	password: ''
 })
 const checked = ref(false)
 const loginFromValidate = reactive({
-	email: '',
+	username: '',
 	password: ''
 })
 
 // 初始化
 onMounted(() => {
-	const email = localStorage.getItem('email')
+	const username = localStorage.getItem('username')
 	const password = localStorage.getItem('password')
 
-	if (email && password) {
-		loginFrom.email = email
+	if (username && password) {
+		loginFrom.username = username
 		loginFrom.password = password
 		checked.value = true
 	}
@@ -124,19 +125,12 @@ const showPassword = () => {
 const validate = () => {
 	let flag = true
 
-	if (!loginFrom.email) {
-		loginFromValidate.email = $t('auth.login.emailError')
+	if (!loginFrom.username) {
+		loginFromValidate.username = $t('auth.login.usernameError')
 
 		flag = false
 	} else {
-		if (
-			!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(loginFrom.email)
-		) {
-			loginFromValidate.email = $t('auth.login.emailFormatError')
-			flag = false
-		} else {
-			loginFromValidate.email = ''
-		}
+		loginFromValidate.username = ''
 	}
 
 	if (!loginFrom.password) {
@@ -158,11 +152,7 @@ const handleSubmit = (event) => {
 		return
 	}
 
-	if (checked.value) {
-		localStorage.setItem('email', loginFrom.email)
-		localStorage.setItem('password', loginFrom.password)
-	}
-
-	alert('登录成功')
+	console.log(loginFrom)
+	handLogin(loginFrom)
 }
 </script>
