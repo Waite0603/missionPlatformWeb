@@ -10,5 +10,5 @@ export const handLogin = async (data: LoginParams) => {
 		password
 	})
 
-	console.log(res)
+	return res.data
 }

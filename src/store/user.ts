@@ -1,34 +1,31 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { UserInfo, UserState, UserToken } from '@/types/user'
+import type { UserInfo, UserState } from '@/types/user'
 
 export const useUserStore = defineStore({
 	id: 'user',
 	state: (): UserState => {
 		const userInfo = ref<UserInfo | null>(null)
-		const token = ref<UserToken | null>(null)
 
-		const setUserInfor = (info: UserInfo) => {
+		const setUserInfo = (info: UserInfo) => {
+			console.log('info', info)
 			userInfo.value = info
 		}
 
-		const setToken = (newToken: UserToken) => {
-			token.value = newToken
-		}
+		// const setToken = (newToken: UserToken) => {
+		// 	token.value = newToken
+		// }
 
 		const clearState = () => {
-			localStorage.removeItem('token')
 			localStorage.removeItem('userInfo')
 			userInfo.value = null
-			token.value = null
 		}
 
 		return {
 			userInfo,
-			token,
-			setUserInfor,
-			setToken,
+			setUserInfo,
 			clearState
 		}
-	}
+	},
+	persist: true
 })

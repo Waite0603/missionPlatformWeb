@@ -1,9 +1,9 @@
 // 用户 pinia state 的类型定义
 export interface UserState {
 	userInfo: Ref<UserInfo | null>
-	token: Ref<UserToken | null>
-	setUserInfor: (info: UserInfo) => void
-	setToken: (token: UserToken) => void
+	// token: Ref<UserToken | null>
+	setUserInfo: (info: UserInfo) => void
+	// setToken: (token: UserToken) => void
 	clearState: () => void
 }
 
@@ -11,6 +11,12 @@ export interface UserState {
 export type LoginParams = {
 	username: string
 	password: string
+}
+
+// 用户 token
+export type UserToken = {
+	access: string
+	refresh: string
 }
 
 // 用户信息
@@ -30,10 +36,5 @@ export type UserInfo = {
 	sex: string
 	avater: string
 	address: string
-}
-
-// 用户 token
-export type UserToken = {
-	access: string
-	refresh: string
+	UserToken
 }

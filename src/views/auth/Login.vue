@@ -43,14 +43,15 @@
 
 			<div class="flex-row">
 				<div class="remember">
-					<Checkbox v-model="checked" :binary="true" />
+					<Checkbox v-model="rememberMe" :binary="true" />
 					<span>{{ $t('auth.login.rememberMe') }}</span>
 				</div>
 				<span class="span">{{ $t('auth.login.forgetPassword') }}</span>
 			</div>
 
-			<button class="button-submit" type="submit">
-				{{ $t('auth.login.submit') }}
+			<button class="button-submit" type="submit" :disabled="isLoading">
+				<span v-if="isLoading"></span>
+				<span v-else>{{ $t('auth.login.submit') }}</span>
 			</button>
 
 			<p class="p">
@@ -79,6 +80,8 @@ import Checkbox from 'primevue/checkbox'
 import { i18n } from '@/lang/index'
 import { handLogin } from '@/api/auth'
 import { useToast } from 'primevue/usetoast'
+import { useUserStore } from '@/store/user'
+import { useRouter } from 'vue-router'
 
 // 国际化
 const $t = i18n.global.t
@@ -88,7 +91,8 @@ const loginFrom = reactive({
 	username: '',
 	password: ''
 })
-const checked = ref(false)
+const rememberMe = ref(false)
+const isLoading = ref(false)
 const loginFromValidate = reactive({
 	username: '',
 	password: ''
@@ -96,13 +100,15 @@ const loginFromValidate = reactive({
 
 // 初始化
 onMounted(() => {
-	const username = localStorage.getItem('username')
-	const password = localStorage.getItem('password')
+	const rememberMeData = localStorage.getItem('rememberMe')
+	const { username, password } = rememberMeData
+		? JSON.parse(rememberMeData)
+		: {}
 
 	if (username && password) {
 		loginFrom.username = username
 		loginFrom.password = password
-		checked.value = true
+		rememberMe.value = true
 	}
 })
 
@@ -147,20 +153,60 @@ const validate = () => {
 
 // 导入提示
 const toast = useToast()
-const handleSubmit = (event) => {
+// 导入 user 全局状态
+const userStore = useUserStore()
+// 导入路由
+const router = useRouter()
+const handleSubmit = async (event) => {
 	// 中止默认表单提交
 	event.preventDefault()
 
+	// 表单验证
 	if (!validate()) {
 		return
 	}
-	handLogin(loginFrom)
 
-	toast.add({
-		severity: 'warn',
-		summary: 'Success Message',
-		detail: 'Message Content',
-		life: 3000
-	})
+	// 防止重复提交
+	if (isLoading.value) {
+		console.log('loginFrom', loginFrom)
+		return
+	}
+
+	isLoading.value = true
+
+	const res = await handLogin(loginFrom)
+
+	if (res.code === 200) {
+		if (rememberMe.value) {
+			localStorage.setItem('rememberMe', JSON.stringify(loginFrom))
+		} else {
+			localStorage.removeItem('rememberMe')
+		}
+
+		// pinia
+		userStore.setUserInfo(res.data)
+		// token
+		localStorage.setItem('token', JSON.stringify(res.data.token))
+
+		toast.add({
+			severity: 'success',
+			summary: $t('toast.success'),
+			detail: res.msg,
+			life: 3000
+		})
+
+		setTimeout(() => {
+			router.push('/')
+		}, 3000)
+	} else {
+		toast.add({
+			severity: 'error',
+			summary: $t('toast.error'),
+			detail: res.msg,
+			life: 3000
+		})
+	}
+
+	isLoading.value = false
 }
 </script>

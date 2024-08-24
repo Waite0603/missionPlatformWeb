@@ -15,6 +15,7 @@ export default {
 		orWith: '或者通过以下方式登录',
 		emailError: '请输入你的电子邮件',
 		emailFormatError: '请输入正确的电子邮件格式',
+		usernameError: '请输入你的用户名',
 		passwordError: '请输入你的密码'
 	},
 	register: {

@@ -170,6 +170,34 @@
 		cursor: pointer;
 	}
 
+	.button-submit:disabled {
+		cursor: not-allowed;
+		position: relative;
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 20px;
+			height: 20px;
+			margin: -10px 0 0 -10px;
+			border: 2px solid #ccc;
+			border-top: 2px solid #333;
+			border-radius: 50%;
+			animation: spin 1s linear infinite;
+		}
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
 	.button-submit:hover {
 		background-color: #252727;
 		box-shadow: 0 0 5px #2d79f3;
