@@ -340,7 +340,7 @@ const handleSubmit = async (event) => {
 
 		setTimeout(() => {
 			router.push('/auth/login')
-		}, 2000)
+		}, 1000)
 	} else {
 		toast.add({
 			severity: 'error',
@@ -348,8 +348,8 @@ const handleSubmit = async (event) => {
 			detail: res.msg,
 			life: 3000
 		})
-	}
 
-	isLoading.value = false
+		isLoading.value = false
+	}
 }
 </script>
