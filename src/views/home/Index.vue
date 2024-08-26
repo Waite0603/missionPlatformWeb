@@ -14,7 +14,7 @@
 		</div>
 	</header>
 
-	<div class="content">
+	<div class="content home">
 		<div class="separator">
 			<h2>Popular Courses</h2>
 			<a href="#">See all <i class="bx bx-chevron-right"></i></a>
