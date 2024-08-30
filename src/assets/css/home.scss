@@ -19,6 +19,12 @@ body {
 	background-color: #f8f8f8;
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 nav {
 	display: flex;
 	align-items: center;
@@ -153,6 +159,8 @@ header .search button {
 .content {
 	background-color: #f8f8fa;
 	padding: 100px 80px 0;
+  flex: 1;
+  min-height: auto;
 }
 
 .content .separator {
@@ -269,6 +277,12 @@ header .search button {
 .content .courses .item .bottom .discount > h5 {
 	background-color: #b7e4c7;
 	color: #2c3f5e;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .content .courses .item .bottom .discount .time {
@@ -391,6 +405,7 @@ header .search button {
 footer {
 	display: flex;
 	flex-direction: column;
+  margin-top: auto;
 	align-items: center;
 	padding: 60px 100px 30px;
 	background-color: #2c3f5e;
@@ -675,7 +690,7 @@ footer .copyright {
 		}
 
 		h4 {
-			font-size: 16px;
+			font-size: 15px;
 			color: #2c3f5e;
 		}
 

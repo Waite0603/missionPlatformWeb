@@ -1,76 +1,145 @@
 <template>
-	<div class="content" id="article-detail">
-		<h1>什么是 Vue</h1>
+	<div class="content" id="article-detail" v-if="articleData">
+		<h1>
+			{{ lang === 'en-US' ? articleData?.english_title : articleData?.title }}
+		</h1>
 
 		<!-- 文章观看次数, 文章字数, 阅读时间 -->
 		<div class="extra">
-			<span>Views: 100</span>
-			<span>Words: 1000</span>
-			<span>Reading Time: 5 min</span>
+			<span
+				>{{ $t('article.words_number') }}: {{ articleInfo?.wordsNumber }}</span
+			>
+			<span
+				>{{ $t('article.reading_time') }}:
+				{{ articleInfo?.readingTime }} min</span
+			>
 		</div>
 
 		<!-- 作者 -->
 		<div class="author">
-			<img src="https://via.placeholder.com/150" alt="author" />
+			<!-- https://via.placeholder.com/150" alt="author" /> -->
+			<img
+				:src="articleData?.author_avatar || 'https://via.placeholder.com/150'"
+				alt="author"
+			/>
 			<div class="info">
-				<h4>Author Name</h4>
-				<p>2021-09-01</p>
+				<h4>{{ articleData?.author }}</h4>
+				<p>{{ articleData?.update_time.split(' ')[0] }}</p>
 			</div>
 		</div>
 
 		<!-- 文章 -->
 		<div class="article">
-			<p>
-				&nbsp;&nbsp;&nbsp;&nbsp;ArkTS是HarmonyOS优选的主力应用开发语言。ArkTS围绕应用开发在TypeScript（简称TS）生态基础上做了进一步扩展，继承了TS的所有特性，是TS的超集。因此，在学习ArkTS语言之前，建议开发者具备TS语言开发能力。<br />&nbsp;&nbsp;&nbsp;&nbsp;
-				当前，ArkTS在TS的基础上主要扩展了如下能力：<br />&nbsp;&nbsp;&nbsp;&nbsp;
-				基本语法：ArkTS定义了声明式UI描述、自定义组件和动态扩展UI元素的能力，再配合ArkUI开发框架中的系统组件及其相关的事件方法、属性方法等共同构成了UI开发的主体。<br />&nbsp;&nbsp;&nbsp;&nbsp;
-				状态管理：ArkTS提供了多维度的状态管理机制。在UI开发框架中，与UI相关联的数据可以在组件内使用，也可以在不同组件层级间传递，比如父子组件之间、爷孙组件之间，还可以在应用全局范围内传递或跨设备传递。另外，从数据的传递形式来看，可分为只读的单向传递和可变更的双向传递。开发者可以灵活地利用这些能力来实现数据和UI的联动。<br />&nbsp;&nbsp;&nbsp;&nbsp;
-				渲染控制：ArkTS提供了渲染控制的能力。条件渲染可根据应用的不同状态，渲染对应状态下的UI内容。循环渲染可从数据源中迭代获取数据，并在每次迭代过程中创建相应的组件。数据懒加载从数据源中按需迭代数据，并在每次迭代过程中创建相应的组件。<br />&nbsp;&nbsp;&nbsp;&nbsp;
-				未来，ArkTS会结合应用开发/运行的需求持续演进，逐步提供并行和并发能力增强、系统类型增强、分布式开发范式等更多特性。#基本语法
-			</p>
+			<div v-html="articleData?.content"></div>
 		</div>
 
 		<!-- 文章推荐 -->
 		<div class="recommend">
-			<h2>推荐文章</h2>
+			<h2>{{ $t('article.recommend') }}</h2>
 			<div class="recommend-list">
-				<a href="#" class="recommend-item">
+				<a
+					v-for="item in articleRecommend"
+					:key="item.id"
+					:href="'/article/detail/' + item.id"
+					class="recommend-item"
+				>
 					<Card>
-						<template #title>Simple Card</template>
-						<template #content>
-							<p class="m-0">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							</p>
+						<template #title>
+							{{ lang === 'en-US' ? item.english_title : item.title }}
 						</template>
-					</Card>
-				</a>
-				<a href="#" class="recommend-item">
-					<Card>
-						<template #title>Simple Card</template>
 						<template #content>
-							<p class="m-0">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit.Lorem ipsum dolor sit amet, consectetur adipisicing elit.Lorem ipsum dolor sit amet, consectetur adipisicing elit.Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							</p>
-						</template>
-					</Card>
-				</a>
-				<a href="#" class="recommend-item">
-					<Card>
-						<template #title>Simple Card</template>
-						<template #content>
-							<p class="m-0">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							</p>
+							<p class="m-0">{{ escapeHtml(item.content).slice(0, 100) }}...</p>
 						</template>
 					</Card>
 				</a>
 			</div>
 		</div>
 	</div>
+
+	<div class="content loading" v-else>
+		<ProgressSpinner />
+	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Card from 'primevue/card'
+import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { getArticle, getRecommend } from '@/api/article'
+import { i18n } from '@/lang/index'
+import { escapeHtml } from '@/utils/utils'
+
+import { ArticleParams, ArticleInfoParams } from '@/types/article'
+import { useToast } from 'primevue/usetoast'
+import ProgressSpinner from 'primevue/progressspinner'
+
+const router = useRouter()
+
+// i18n
+const $t = i18n.global.t
+
+// toast
+const toast = useToast()
+
+// 获取中文/ 英文
+const lang = localStorage.getItem('language') || 'en-US'
+
+const articleData = ref<ArticleParams | null>(null)
+const articleInfo = ref<ArticleInfoParams | null>(null)
+const articleRecommend = ref<ArticleParams[]>([])
+
+// 页面创建
+onMounted(() => {
+	const id = router.currentRoute.value.params.id
+
+	getArticleDetail(id)
+})
+
+// 获取文章详情
+const getArticleDetail = async (id) => {
+	const res = await getArticle(id)
+
+	if (res.code === 200) {
+		// 设置标题
+		document.title = lang === 'en-US' ? res.data.english_title : res.data.title
+
+		articleData.value = res.data
+
+		// 获取文章字数, 计算阅读时间
+		const wordsNumber = res.data.content.replace(/<[^>]+>/g, '').length
+		const readingTime = Math.ceil(wordsNumber / 200)
+
+		articleInfo.value = {
+			wordsNumber,
+			readingTime
+		}
+
+		// 获取推荐文章
+		getRecommendArticle(res.data.id)
+	} else {
+		toast.add({
+			severity: 'error',
+			summary: $t('toast.error'),
+			detail: res.msg
+		})
+
+		// 返回上一级
+		setTimeout(() => {
+			router.go(-1)
+		}, 1500)
+	}
+}
+
+// 获取推荐文章
+const getRecommendArticle = async (id: number) => {
+	const res = await getRecommend(id)
+
+	console.log(res)
+	if (res.code === 200) {
+		articleRecommend.value = res.data
+	}
+}
 </script>
 
 <style scoped></style>
