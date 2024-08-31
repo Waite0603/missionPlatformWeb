@@ -767,3 +767,83 @@ footer .copyright {
 		}
 	}
 }
+
+.article-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 80px;
+  gap: 20px;
+
+  .article-item {
+    width: 48%;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+
+    .author {
+      // 右对齐
+      display: flex;
+      justify-content: flex-end;
+      height: 20px;
+      .info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+          width: 25px;
+          height: 25px;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+
+        h4 {
+          font-size: 15px;
+          color: #2c3f5e;
+        }
+
+        p {
+          font-size: 12px;
+          font-weight: bold;
+          color: #2c3f5e;
+        }
+      }
+    }
+
+    p {
+      // 三行省略
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+  }
+
+  .article-item:hover {
+    box-shadow: 0 5px 30px rgba(44, 63, 94, 0.5);
+    border-radius: 18px;
+  }
+}
+
+
+.content .more {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    // 圆形按钮
+    border-radius: 50px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #f6f6f6;
+    box-shadow: 0 5px 30px rgba(44, 63, 94, 0.5);
+  }
+}

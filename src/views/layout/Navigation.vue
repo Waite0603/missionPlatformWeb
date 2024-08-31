@@ -5,9 +5,9 @@
 				<img src="@/assets/images/logo.png" />
 			</div>
 			<div class="links">
-				<a href="#">Home</a>
+				<a href="/">Home</a>
 				<a href="#">Courses</a>
-				<a href="#">Articles</a>
+				<a href="/articles">Articles</a>
 				<a href="#">Podcasts</a>
 				<a href="#">About Us</a>
 				<a href="#">Contact Us</a>

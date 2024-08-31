@@ -18,3 +18,11 @@ export type ArticleInfoParams = {
   words_number: number
   reading_time: number
 }
+
+
+// page, pageSize
+export type PageParams = {
+  page: number
+  pageSize: number,
+  total: number
+}
