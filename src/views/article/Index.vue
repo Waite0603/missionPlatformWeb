@@ -22,7 +22,7 @@
 								<h4>{{ item.author }}</h4>
 								<p>
 									<i class="bx bx-time"></i>
-									{{ item.update_time.split('T')[0] }}
+									{{ item.update_time }}
 								</p>
 							</div>
 						</div>

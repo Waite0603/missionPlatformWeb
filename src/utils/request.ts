@@ -1,18 +1,11 @@
 import { UserToken } from '@/types/user'
 import axios from 'axios'
-import { formatTime } from './utils'
+import { formatTimeData } from './utils'
 
 const request = axios.create({
 	baseURL: '/api',
 	timeout: 5000
 })
-
-const timeDeal: string[] = [
-	'date_joined',
-	'last_login',
-	'create_time',
-	'update_time'
-]
 
 // 数据请求拦截器
 request.interceptors.request.use(
@@ -35,27 +28,8 @@ request.interceptors.request.use(
 request.interceptors.response.use(
 	(response) => {
 		// 如果相应状态码为200，并且有 data 字段，处理其中的time数据
-		console.log(response)
 		if (response.status === 200 && response.data.data) {
-			const data = response.data.data
-			// 如果data是数组，遍历数组，处理其中的time数据
-			if (Array.isArray(data)) {
-				data.forEach((item) => {
-					timeDeal.forEach((key) => {
-						if (item[key]) {
-							item[key] = formatTime(item[key])
-						}
-					})
-				})
-			}
-			// 如果data是对象，处理其中的time数据
-			else {
-				timeDeal.forEach((key) => {
-					if (data[key]) {
-						data[key] = formatTime(data[key])
-					}
-				})
-			}
+			formatTimeData(response.data.data)
 		}
 
 		return Promise.resolve(response)
