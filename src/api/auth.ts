@@ -1,3 +1,4 @@
+import { ContactParams } from '@/types/contac'
 import { LoginParams, RegisterParams } from '@/types/user'
 import { post, get } from '@/utils/request'
 
@@ -25,6 +26,14 @@ export const getCaptcha = async (phone: string) => {
 // 注册
 export const handRegister = async (data: RegisterParams) => {
 	const res = await post('/auth/register/', data)
+
+	return res.data
+}
+
+// 联系我们
+export const handContactUs = async (data: ContactParams) => {
+	// console.l
+	const res = await post('/auth/contact/', data)
 
 	return res.data
 }

@@ -62,7 +62,6 @@
 </template>
 
 <script setup lang="ts">
-import Card from 'primevue/card'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -72,7 +71,6 @@ import { escapeHtml } from '@/utils/utils'
 
 import { ArticleParams, ArticleInfoParams } from '@/types/article'
 import { useToast } from 'primevue/usetoast'
-import ProgressSpinner from 'primevue/progressspinner'
 
 const router = useRouter()
 

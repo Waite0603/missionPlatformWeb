@@ -9,8 +9,7 @@
 				<a href="#">Courses</a>
 				<a href="/articles">Articles</a>
 				<a href="#">Podcasts</a>
-				<a href="#">About Us</a>
-				<a href="#">Contact Us</a>
+				<a href="/contact">Contact Us</a>
 			</div>
 		</div>
 

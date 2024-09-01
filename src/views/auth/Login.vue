@@ -168,7 +168,6 @@ const handleSubmit = async (event) => {
 
 	// 防止重复提交
 	if (isLoading.value) {
-		console.log('loginFrom', loginFrom)
 		return
 	}
 

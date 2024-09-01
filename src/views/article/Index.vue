@@ -46,8 +46,6 @@
 </template>
 
 <script setup lang="ts">
-import Card from 'primevue/Card'
-import ProgressSpinner from 'primevue/ProgressSpinner'
 import { ref, onMounted } from 'vue'
 import { escapeHtml } from '@/utils/utils'
 import { PageParams, ArticleParams } from '@/types/article'
