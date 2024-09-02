@@ -48,6 +48,18 @@ const router = createRouter({
 					path: 'contact',
 					name: 'contact',
 					component: () => import('@/views/contact/Index.vue')
+				},
+				{
+					path: 'user',
+					name: 'user',
+					component: () => import('@/views/user/Index.vue'),
+					children: [
+						{
+							path: 'profile',
+							name: 'profile',
+							component: () => import('@/views/user/profile/Index.vue')
+						}
+					]
 				}
 			]
 		}

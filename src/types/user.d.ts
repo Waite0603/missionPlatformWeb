@@ -15,10 +15,10 @@ export type LoginParams = {
 
 // RegisterParams
 export type RegisterParams = {
-  username: string
-  password: string
-  phone: string
-  verify_code: string
+	username: string
+	password: string
+	phone: string
+	verify_code: string
 }
 // 用户 token
 export type UserToken = {
@@ -44,4 +44,19 @@ export type UserInfo = {
 	avater: string
 	address: string
 	UserToken
+}
+
+// 用户更改信息
+export type UserUpdateInfo = {
+	id: number
+	username: string
+	first_name: string
+	last_name: string
+	email: string
+	data_joined: string
+	phone: string
+	birthday: string
+	sex: string
+	avater: string
+	address: string
 }
