@@ -57,6 +57,6 @@ export type UserUpdateInfo = {
 	phone: string
 	birthday: string
 	sex: string
-	avater: string
+	avatar: string
 	address: string
 }

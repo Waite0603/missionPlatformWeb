@@ -1,14 +1,7 @@
 <template>
 	<div class="setting">
 		<div class="setting-left">
-			<div class="avater-mode">
-				<img
-					class="avator-img"
-					src="https://qiniu.waite.wang/202409021640820.png"
-				/>
-				<!-- 用户名 -->
-				<div class="avator-name">amin000</div>
-			</div>
+
 			<ul>
 				<li class="active">
 					<router-link to="/user/profile">个人资料</router-link>

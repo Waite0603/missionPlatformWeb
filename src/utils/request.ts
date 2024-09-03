@@ -10,12 +10,12 @@ const request = axios.create({
 // 数据请求拦截器
 request.interceptors.request.use(
 	(config) => {
-		const token: UserToken | null = localStorage.getItem(
-			'token'
-		) as UserToken | null
+		const token: UserToken | null = JSON.parse(
+			localStorage.getItem('token') || 'null'
+		)
 		if (token) {
-			config.headers['Authorization'] = `${token['access']}`
-			config.headers['Refresh'] = `${token['refresh']}`
+			config.headers['Authorization'] = `${token.access}`
+			config.headers['Refresh'] = `${token.refresh}`
 		}
 		return config
 	},
@@ -46,4 +46,13 @@ export const get = (url: string, params?: object) => {
 
 export const post = (url: string, data: object) => {
 	return request.post(url, data)
+}
+
+// 上传文件
+export const upload = (url: string, data: FormData) => {
+	return request.post(url, data, {
+		headers: {
+			'Content-Type': 'multipart/form-data'
+		}
+	})
 }

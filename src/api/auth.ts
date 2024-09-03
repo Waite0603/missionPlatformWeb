@@ -1,6 +1,6 @@
 import { ContactParams } from '@/types/contac'
-import { LoginParams, RegisterParams } from '@/types/user'
-import { post, get } from '@/utils/request'
+import { LoginParams, RegisterParams, UserUpdateInfo } from '@/types/user'
+import { post, get, upload } from '@/utils/request'
 
 // 登录
 export const handLogin = async (data: LoginParams) => {
@@ -34,6 +34,28 @@ export const handRegister = async (data: RegisterParams) => {
 export const handContactUs = async (data: ContactParams) => {
 	// console.l
 	const res = await post('/auth/contact/', data)
+
+	return res.data
+}
+
+// 获取用户信息
+export const getUserInfo = async () => {
+	const res = await get('/auth/userinfo/')
+
+	return res.data
+}
+
+// 更新用户信息
+export const updateUserInfo = async (data: UserUpdateInfo) => {
+	const res = await post('/auth/update/', data)
+
+	return res.data
+}
+
+// 头像上传
+export const handUploadAvatar = async (data: FormData) => {
+	console.log(data)
+	const res = await upload('/auth/avatar/upload/', data)
 
 	return res.data
 }

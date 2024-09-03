@@ -6,6 +6,8 @@ import ToastService from 'primevue/toastservice'
 import { i18n } from '@/lang/index'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import VueCropper from 'vue-cropper'
+import 'vue-cropper/dist/index.css'
 
 import '@/assets/css/index.scss'
 
@@ -19,5 +21,6 @@ app.use(i18n)
 app.use(router)
 app.use(PrimeVue)
 app.use(ToastService)
+app.use(VueCropper)
 
 app.mount('#app')

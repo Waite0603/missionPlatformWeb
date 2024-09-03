@@ -121,7 +121,7 @@ const contactData = reactive({
 const submited = ref(false)
 
 const submitForm = async () => {
-	event.preventDefault()
+	event!.preventDefault()
 
 	if (submited.value) {
 		console.log('loginFrom', contactData)
