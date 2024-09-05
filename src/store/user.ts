@@ -8,7 +8,6 @@ export const useUserStore = defineStore({
 		const userInfo = ref<UserInfo | null>(null)
 
 		const setUserInfo = (info: UserInfo) => {
-			console.log('info', info)
 			userInfo.value = info
 		}
 

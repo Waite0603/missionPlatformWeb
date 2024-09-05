@@ -59,3 +59,12 @@ export const handUploadAvatar = async (data: FormData) => {
 
 	return res.data
 }
+
+// 开通会员
+export const handleOpenVip = async (vip_type: number) => {
+	const res = await post('/auth/vip/direct/open/', {
+		vip_type
+	})
+
+	return res.data
+}

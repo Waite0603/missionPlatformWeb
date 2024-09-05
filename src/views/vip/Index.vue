@@ -4,10 +4,17 @@
 			<div class="container">
 				<h1>Join VIP</h1>
 				<p>Get access to all our courses, articles, and podcasts.</p>
+				<div v-if="user.userInfo.status !== 1">
+					<p>您已经是 VIP 会员</p>
+					<p v-if="user.userInfo.status === 5">
+						到期时间: {{ user.userInfo.vip_end_time?.split('T')[0] }}
+					</p>
+					<p v-else>终身会员欢迎您！</p>
+				</div>
 				<!--激活码 -->
-				<div v-if="!isVip.value">
+				<div v-if="user.userInfo.status !== 10">
 					<InputText placeholder="Enter activation code" />
-					<Button label="Activate" style="margin-left: 10px;"></Button>
+					<Button label="Activate" style="margin-left: 10px"></Button>
 				</div>
 			</div>
 		</div>
@@ -28,6 +35,16 @@
 						severity="secondary"
 						outlined
 						class="w-full"
+						@click="openVip(5)"
+						v-if="user.userInfo.status === 1"
+					/>
+					<Button
+						label="点击续费"
+						severity="secondary"
+						outlined
+						class="w-full"
+						@click="openVip(5)"
+						v-if="user.userInfo.status === 5"
 					/>
 				</template>
 			</Card>
@@ -46,6 +63,16 @@
 						severity="secondary"
 						outlined
 						class="w-full"
+						@click="openVip(10)"
+						v-if="user.userInfo.status === 1"
+					/>
+					<Button
+						label="点击续费"
+						severity="secondary"
+						outlined
+						class="w-full"
+						@click="openVip(10)"
+						v-if="user.userInfo.status === 5"
 					/>
 				</template>
 			</Card>
@@ -70,13 +97,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { handleOpenVip } from '@/api/auth'
+import { useConfirm } from 'primevue/useconfirm'
+import { i18n } from '@/lang/index'
+import { useToast } from 'primevue/usetoast'
+import { useUserStore } from '@/store/user'
+
+const confirm = useConfirm()
+const toast = useToast()
+const $t = i18n.global.t
+const useUser = useUserStore()
 
 // 获取当前用户, localStorage.getItem('user')
 const user = ref(JSON.parse(localStorage.getItem('user') || '{}'))
 
-// 获取当前用户的 VIP 状态
-const isVip = computed(() => user.value.status === 10)
+console.log(user.value)
 
 // VIP 特权
 const vipPrivilege = ref([
@@ -99,6 +135,44 @@ const vipPrivilege = ref([
 		'lifetime-vip': '所有资料可下载'
 	}
 ])
+
+// 开通会员
+const openVip = async (vipType: number) => {
+	confirm.require({
+		message: '你确定要开通会员吗？',
+		header: '开通会员',
+		icon: 'pi pi-exclamation-triangle',
+		rejectLabel: '取消',
+		rejectClass: 'p-button-secondary p-button-outlined',
+		acceptLabel: '确定',
+		accept: async () => {
+			// 开通会员
+			const res = await handleOpenVip(vipType)
+			if (res.code === 200) {
+				// 更新用户信息
+				useUser.setUserInfo(res.data)
+				user.value = ref(JSON.parse(localStorage.getItem('user') || '{}'))
+				// 提示
+				toast.add({
+					severity: 'success',
+					summary: $t('toast.success'),
+					detail: res.msg,
+					life: 3000
+				})
+
+				// 刷新页面
+				location.reload()
+			} else {
+				toast.add({
+					severity: 'error',
+					summary: $t('toast.error'),
+					detail: res.msg,
+					life: 3000
+				})
+			}
+		}
+	})
+}
 </script>
 
 <style scoped lang="scss">

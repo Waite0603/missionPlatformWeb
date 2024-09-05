@@ -6,12 +6,6 @@
 					<router-link to="/user/profile">个人资料</router-link>
 				</li>
 				<li>
-					<router-link to="/user/security">安全设置</router-link>
-				</li>
-				<li>
-					<router-link to="/user/notification">消息通知</router-link>
-				</li>
-				<li>
 					<router-link to="/user/privacy">隐私设置</router-link>
 				</li>
 				<li>
@@ -49,14 +43,9 @@ const logout = () => {
 		message: '你想要退出登录吗？',
 		header: '退出登录',
 		icon: 'pi pi-exclamation-triangle',
-		rejectProps: {
-			label: 'Cancel',
-			severity: 'secondary',
-			outlined: true
-		},
-		acceptProps: {
-			label: 'Save'
-		},
+		rejectLabel: 'Cancel',
+		rejectClass: 'p-button-secondary p-button-outlined',
+		acceptLabel: 'Save',
 		accept: () => {
 			userStore.clearState()
 			toast.add({
