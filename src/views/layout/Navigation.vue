@@ -15,7 +15,8 @@
 
 		<div class="buttons">
 			<a href="#"><i class="bx bx-support"></i></a>
-			<a href="#"><i class="bx bx-basket"></i></a>
+			<!-- VIP -->
+			<a href="/vip"><i class="bx bx-diamond" style="color: #f8b400"></i></a>
 			<a href="/user/profile"><i class="bx bx-user"></i></a>
 		</div>
 	</nav>

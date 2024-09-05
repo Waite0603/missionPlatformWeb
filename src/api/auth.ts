@@ -1,4 +1,4 @@
-import { ContactParams } from '@/types/contac'
+import { ContactParams } from '@/types/contact'
 import { LoginParams, RegisterParams, UserUpdateInfo } from '@/types/user'
 import { post, get, upload } from '@/utils/request'
 

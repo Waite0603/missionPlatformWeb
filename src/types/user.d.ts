@@ -43,6 +43,9 @@ export type UserInfo = {
 	sex: string
 	avater: string
 	address: string
+  status: number
+  vip_start_time: string
+  vip_end_time: string
 	UserToken
 }
 

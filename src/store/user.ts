@@ -18,6 +18,7 @@ export const useUserStore = defineStore({
 
 		const clearState = () => {
 			localStorage.removeItem('userInfo')
+			localStorage.removeItem('token')
 			userInfo.value = null
 		}
 
