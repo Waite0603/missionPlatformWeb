@@ -7,7 +7,7 @@
 				<div v-if="user.userInfo.status !== 1">
 					<p>您已经是 VIP 会员</p>
 					<p v-if="user.userInfo.status === 5">
-						到期时间: {{ user.userInfo.vip_end_time?.split('T')[0] }}
+						到期时间: {{ user.userInfo.vip_end_time }}
 					</p>
 					<p v-else>终身会员欢迎您！</p>
 				</div>

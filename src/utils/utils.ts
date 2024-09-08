@@ -8,7 +8,9 @@ const timeDeal: string[] = [
 	'date_joined',
 	'last_login',
 	'create_time',
-	'update_time'
+	'update_time',
+	'vip_start_time',
+	'vip_end_time'
 ]
 export function formatTimeData(data: DataItem | DataItem[]) {
 	// 定义一个名为 formatTimeData 的函数，它接受一个参数 data，类型为 DataItem 或 DataItem 数组
