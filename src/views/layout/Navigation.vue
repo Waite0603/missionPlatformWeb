@@ -6,7 +6,7 @@
 			</div>
 			<div class="links">
 				<a href="/">Home</a>
-				<a href="#">Courses</a>
+				<a href="/course">Courses</a>
 				<a href="/articles">Articles</a>
 				<a href="#">Podcasts</a>
 				<a href="/contact">Contact Us</a>

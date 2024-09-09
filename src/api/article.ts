@@ -17,7 +17,6 @@ export const getRecommend = async (id: number) => {
 
 // 获取文章列表
 export const getArticleListAPI = async (params: PageParams) => {
-	console.log('params', params)
 	const res = await get('/article/get_list', params)
 
 	return res.data

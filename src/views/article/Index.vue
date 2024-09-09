@@ -34,7 +34,7 @@
 			<!-- 向下箭头 -->
 			<button
 				@click="getMore"
-				v-if="pageInfo.page * pageInfo.pageSize < pageInfo.total"
+				v-if="pageInfo?.page * pageInfo?.pageSize < pageInfo!.total"
 			>
 				<i class="bx bx-down-arrow"></i>
 			</button>
@@ -46,15 +46,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { Ref, ref, onMounted } from 'vue'
 import { escapeHtml } from '@/utils/utils'
-import { PageParams, ArticleParams } from '@/types/article'
+import { ArticleParams, PageTotalParams } from '@/types/article'
 
 // import Button from 'primevue/button'
 import { getArticleListAPI } from '@/api/article'
 
 // page, pageSize, total
-const pageInfo: ref<PageParams> = ref({
+const pageInfo: Ref<PageTotalParams> = ref({
 	page: 1,
 	pageSize: 6,
 	total: 100
@@ -74,9 +74,6 @@ const getArticleList = async () => {
 	})
 	articleList.value.push(...res.data.data)
 	pageInfo.value.total = res.data.total
-
-	console.log(articleList.value)
-	console.log(pageInfo.value)
 }
 
 // 获取更多
@@ -86,7 +83,6 @@ const getMore = () => {
 }
 
 onMounted(() => {
-	console.log(articleList.value)
 	setTimeout(() => {
 		getArticleList()
 	}, 1000)

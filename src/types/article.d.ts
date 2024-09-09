@@ -22,5 +22,8 @@ export type ArticleInfoParams = {
 export type PageParams = {
 	page: number
 	pageSize: number
+}
+
+export type PageTotalParams = PageParams & {
 	total: number
 }
