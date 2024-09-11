@@ -1159,73 +1159,205 @@ footer .copyright {
 }
 
 .course-detail-page {
-	background-image: linear-gradient(0deg, #ffffff 0%, #bfe6ff 100%);
-	padding: 20px 160px;
+	.course-detail-banner {
+		background-image: linear-gradient(0deg, #ffffff 0%, #bfe6ff 100%);
+		padding: 20px 160px;
 
-	position: relative;
+		position: relative;
 
-	.banner {
-		display: flex;
-		flex-direction: column;
-
-		h1 {
-			font-size: 40px;
-			font-weight: 900;
-			margin-bottom: 10px;
-		}
-		p {
-			font-size: 20px;
-			font-weight: 300;
-			margin-bottom: 0;
-		}
-
-		.info-box {
+		.banner {
 			display: flex;
-      flex-wrap: wrap;
-			margin-top: 20px;
-			gap: 20px;
-			font-size: 16px;
-			color: #1c1f21;
-			line-height: 20px;
-			font-weight: 600;
-		}
+			flex-direction: column;
 
-		.vip-box {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			font-size: 16px;
-			background: linear-gradient(90deg, #ff0000 0%, #ff7f00 100%);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			line-height: 20px;
-			font-weight: 600;
+			h1 {
+				font-size: 40px;
+				font-weight: 900;
+				margin-bottom: 10px;
+			}
+			p {
+				font-size: 20px;
+				font-weight: 300;
+				margin-bottom: 0;
+			}
 
-			img {
-				width: 20px;
-				height: 20px;
+			.info-box {
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: 20px;
+				gap: 20px;
+				font-size: 16px;
+				color: #1c1f21;
+				line-height: 20px;
+				font-weight: 600;
+			}
+
+			.vip-box {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				font-size: 16px;
+				color: #ff0000;
+				line-height: 20px;
+				font-weight: 600;
+
+				img {
+					width: 20px;
+					height: 20px;
+				}
+			}
+			.red {
+				color: #ff0000;
 			}
 		}
-		.red {
-			color: #ff0000;
+
+		.btn-box {
+			position: absolute;
+			top: 50%;
+			right: 20%;
+			width: auto;
 		}
 	}
 
-	.btn-box {
-		position: absolute;
-    top: 50%;
-    right: 20%;
-		width: auto;
+	.course-content {
+		display: flex;
+		gap: 20px;
+		padding: 20px 80px;
+
+		.right {
+			width: 70%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+
+				li {
+					display: flex;
+					align-items: center;
+					width: 100%;
+					height: 50px;
+					gap: 10px;
+					margin-bottom: 10px;
+					padding: 10px;
+
+					i {
+						font-size: 20px;
+					}
+
+					span {
+						font-size: 16px;
+						font-weight: 600;
+					}
+				}
+
+				li:hover {
+					background-color: #f6f6f6;
+					cursor: pointer;
+					border-radius: 10px;
+				}
+			}
+
+			.comment-card {
+				display: flex;
+				gap: 20px;
+				padding: 10px;
+
+				.comment-box {
+					.comment-item {
+						display: flex;
+						gap: 10px;
+						padding: 10px;
+						border-radius: 10px;
+
+						img {
+							width: 50px;
+							height: 50px;
+							object-fit: cover;
+							border-radius: 50%;
+						}
+
+						.info {
+							display: flex;
+							flex-direction: column;
+
+							p {
+								margin: 0;
+								padding: 0;
+							}
+
+              .name {
+                font-size: 16px;
+                font-weight: bold;
+              }
+
+              .comment {
+                font-size: 14px;
+                margin-top: 5px;
+              }
+						}
+					}
+				}
+			}
+		}
+
+		.left {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			width: 30%;
+
+			.recommend-course {
+				.item {
+					display: flex;
+					gap: 10px;
+					padding: 10px;
+					border-radius: 10px;
+					cursor: pointer;
+					transition: all 0.3s ease;
+
+					&:hover {
+						background-color: #f6f6f6;
+					}
+
+					img {
+						width: 80px;
+						height: 80px;
+						object-fit: cover;
+						border-radius: 10px;
+					}
+
+					.info {
+						display: flex;
+						flex-direction: column;
+
+						h4 {
+							font-size: 14px;
+							font-weight: bold;
+							color: #2c3f5e;
+						}
+
+						p {
+							font-size: 12px;
+							color: #666;
+							margin: 0;
+							padding: 0;
+						}
+					}
+				}
+			}
+		}
 	}
-}
 
+	@media screen and (max-width: 768px) {
+		.course-detail-page {
+			padding: 20px 40px;
 
-@media screen and (max-width: 768px) {
-  .course-detail-page {
-    padding: 20px 40px;
-
-    .btn-box {
-      display: none;
-    }
-  }
+			.btn-box {
+				display: none;
+			}
+		}
+	}
 }

@@ -72,9 +72,14 @@ const router = createRouter({
 					component: () => import('@/views/course/Index.vue')
 				},
 				{
-					path: 'course/detail/:id',
+					path: 'course/:id',
 					name: 'courseDetail',
 					component: () => import('@/views/course/detail/Index.vue')
+				},
+				{
+					path: 'course/detail/:id',
+					name: 'courseVideo',
+					component: () => import('@/views/course/videoWatch/Index.vue')
 				}
 			]
 		}
