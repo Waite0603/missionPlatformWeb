@@ -1225,9 +1225,9 @@ footer .copyright {
 
 		.right {
 			width: 70%;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
 
 			ul {
 				list-style: none;
@@ -1288,15 +1288,15 @@ footer .copyright {
 								padding: 0;
 							}
 
-              .name {
-                font-size: 16px;
-                font-weight: bold;
-              }
+							.name {
+								font-size: 16px;
+								font-weight: bold;
+							}
 
-              .comment {
-                font-size: 14px;
-                margin-top: 5px;
-              }
+							.comment {
+								font-size: 14px;
+								margin-top: 5px;
+							}
 						}
 					}
 				}
@@ -1358,6 +1358,72 @@ footer .copyright {
 			.btn-box {
 				display: none;
 			}
+		}
+	}
+}
+
+.video-container {
+	display: flex;
+	gap: 20px;
+	flex-direction: row;
+	padding: 20px;
+
+	h1 {
+		margin: 10px;
+	}
+
+	@media (max-width: 768px) {
+		padding: 50px 40px;
+	}
+
+	.video-player {
+		width: 80%;
+
+		.video {
+			width: 100%;
+			height: 60vh;
+		}
+	}
+
+	.video-list {
+		width: 20%;
+		display: flex;
+		flex-direction: column;
+		text-align: center;
+		background-color: white;
+		height: 60vh;
+
+		border-radius: 20px;
+
+		p {
+			font-size: 20px;
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+
+		.p-virtualscroller {
+			padding: 30px 0;
+			width: 100%;
+      height: 100%;
+
+			.list-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+				height: 50px;
+			}
+
+      .list-item:hover {
+        background-color: #f6f6f6;
+        cursor: pointer;
+        color: #2d79f3;
+      }
+
+      .active {
+        background-color: #f6f6f6;
+        font-weight: bold;
+        color: #2d79f3;
+      }
 		}
 	}
 }

@@ -26,6 +26,7 @@
 		"@eslint/js": "^9.4.0",
 		"@primevue/auto-import-resolver": "^4.0.5",
 		"@types/node": "^20.14.2",
+		"@types/video.js": "^7.3.58",
 		"@typescript-eslint/eslint-plugin": "^7.12.0",
 		"@typescript-eslint/parser": "^7.12.0",
 		"@vitejs/plugin-vue": "^5.0.4",
@@ -39,6 +40,7 @@
 		"typescript": "^5.2.2",
 		"typescript-eslint": "^7.12.0",
 		"unplugin-vue-components": "^0.27.4",
+		"video.js": "^8.17.4",
 		"vite": "^5.2.13",
 		"vue-tsc": "^2.0.21"
 	}
