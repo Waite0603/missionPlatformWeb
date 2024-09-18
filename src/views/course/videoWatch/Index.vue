@@ -14,17 +14,18 @@
 		<div class="video-list">
 			<p class="text-lg font-bold">课程目录</p>
 			<VirtualScroller
-				:items="items"
+				:items="chapterList"
 				:itemSize="50"
-        d-loading=true
+				d-loading="true"
 				class="border border-surface-200 dark:border-surface-700 rounded"
 			>
 				<template v-slot:item="{ item, options }">
 					<div
 						class="list-item"
 						:class="{ active: videoIndex === options.index }"
+						@click="videoIndex = options.index"
 					>
-						{{ item }}
+						{{ item.name }}
 					</div>
 				</template>
 			</VirtualScroller>
@@ -34,25 +35,49 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { getChapterList } from '@/api/course'
+import { ChapterListItem } from '@/types/course'
+import { useRouter } from 'vue-router'
+import { useToast } from 'primevue/usetoast'
+import { onMounted } from 'vue'
+import { watch } from 'vue'
 
+const router = useRouter()
 const videoIndex = ref(0)
-const videoSrc =
-	'http://127.0.0.1:8000/video/1dd411c1c3d63bad0efd5fc8280b62b9.mp4'
+const videoSrc = ref<string>('')
+const toast = useToast()
 
-const items = ref<string[]>([
-	'Product 1',
-	'Product 2',
-	'Product 3',
-	'Product 1',
-	'Product 2',
-	'Product 3',
-	'Product 1',
-	'Product 2',
-	'Product 3',
+const items = ref<string[]>([])
+const chapterList = ref<ChapterListItem[]>([])
 
-	'Product 3',
-	'Product 3'
-])
+const handleGetChapterList = async (id: string) => {
+	const res = await getChapterList(id)
+	if (res.code === 200) {
+		chapterList.value = res.data
+		items.value = chapterList.value.map((item) => item.name)
+		videoSrc.value = '/api/video/' + chapterList.value[0].video
+	} else {
+		toast.add({
+			severity: 'error',
+			summary: 'Error',
+			detail: res.msg,
+			life: 3000
+		})
+
+		setTimeout(() => {
+			router.go(-1)
+		}, 1500)
+	}
+}
+
+watch(videoIndex, (index) => {
+	videoSrc.value = '/api/video/' + chapterList.value[index].video
+})
+
+onMounted(() => {
+	const courseId = router.currentRoute.value.params.id.toString()
+	handleGetChapterList(courseId)
+})
 </script>
 
 <style scoped></style>

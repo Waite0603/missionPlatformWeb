@@ -7,11 +7,11 @@
 		<!-- 文章观看次数, 文章字数, 阅读时间 -->
 		<div class="extra">
 			<span
-				>{{ $t('article.words_number') }}: {{ articleInfo?.wordsNumber }}</span
+				>{{ $t('article.words_number') }}: {{ articleInfo?.words_number }}</span
 			>
 			<span
 				>{{ $t('article.reading_time') }}:
-				{{ articleInfo?.readingTime }} min</span
+				{{ articleInfo?.reading_time }} min</span
 			>
 		</div>
 
@@ -89,13 +89,14 @@ const articleRecommend = ref<ArticleParams[]>([])
 
 // 页面创建
 onMounted(() => {
-	const id = router.currentRoute.value.params.id
+	// const id = router.currentRoute.value.params.id
+	const id = +router.currentRoute.value.params.id
 
 	getArticleDetail(id)
 })
 
 // 获取文章详情
-const getArticleDetail = async (id) => {
+const getArticleDetail = async (id: number) => {
 	const res = await getArticle(id)
 
 	if (res.code === 200) {
@@ -109,8 +110,8 @@ const getArticleDetail = async (id) => {
 		const readingTime = Math.ceil(wordsNumber / 200)
 
 		articleInfo.value = {
-			wordsNumber,
-			readingTime
+			words_number: wordsNumber,
+			reading_time: readingTime
 		}
 
 		// 获取推荐文章
