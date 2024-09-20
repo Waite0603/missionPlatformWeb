@@ -1,10 +1,14 @@
 <template>
-	<div class="course-detail-page">
+	<!-- loading -->
+	<div v-if="!courseInfo" class="content loading">
+		<ProgressSpinner />
+	</div>
+	<div class="course-detail-page" v-else>
 		<div class="course-detail-banner">
 			<div class="banner">
-				<h1>软件设计师（软考中级），一站式通关课程</h1>
+				<h1>{{ courseInfo?.name }}</h1>
 				<!-- 会员专享 -->
-				<div class="vip-box">
+				<div class="vip-box" v-if="courseInfo && courseInfo.status > 5">
 					<img src="@/assets/images/logo.png" />
 					<span>会员专享</span>
 				</div>
@@ -17,10 +21,15 @@
 						难度：<span class="red js-difficult-word">中级</span>
 					</div>
 					<span class="devide">|</span>
-					<div class="item-box">时长：共 <span class="red">28</span> 小时</div>
+					<div class="item-box">
+						分类:
+						<span class="red">
+							{{ courseInfo?.category }}
+						</span>
+					</div>
 				</div>
 			</div>
-			<div class="btn-box">
+			<div class="btn-box" v-if="userInfo?.status < 5">
 				<Button label="Danger" severity="danger" rounded>开通会员</Button>
 			</div>
 		</div>
@@ -30,53 +39,41 @@
 				<Card>
 					<template #title> 课程目录 </template>
 					<template #content>
-						<ul>
-              <li>
-                <i class="pi pi-video"></i>
-                <span>第一章：软件设计基础</span>
-              </li>
-              <li>
-                <i class="pi pi-video"></i>
-                <span>第二章：软件设计过程</span>
-              </li>
-              <li>
-                <i class="pi pi-video"></i>
-                <span>第三章：软件设计方法</span>
-              </li>
-              <li>
-                <i class="pi pi-video"></i>
-                <span>第四章：软件设计工具</span>
-              </li>
+						<ul v-for="item in chapterList" :key="item.id">
+							<li @click="skipToVideo(item.id)">
+								<i class="pi pi-video"></i>
+								<span>{{ item.name }}</span>
+							</li>
 						</ul>
 					</template>
 				</Card>
 
-        <!-- 评论区 -->
-        <Card class="comment-card">
-          <template #title> 评论 </template>
-          <template #content>
-            <div class="comment-box">
-              <div class="comment-item">
-                <div class="avatar">
-                  <img src="@/assets/images/profile-1.png" />
-                </div>
-                <div class="info">
-                  <p class="name">李四</p>
-                  <p class="comment">课程内容很丰富，讲解的很详细</p>
-                </div>
-              </div>
-              <div class="comment-item">
-                <div class="avatar">
-                  <img src="@/assets/images/profile-2.png" />
-                </div>
-                <div class="info">
-                  <p class="name">李四</p>
-                  <p class="comment">课程内容很丰富，讲解的很详细</p>
-                </div>
-              </div>
-            </div>
-          </template>
-        </Card>
+				<!-- 评论区 -->
+				<Card class="comment-card">
+					<template #title> 评论 </template>
+					<template #content>
+						<div class="comment-box">
+							<div class="comment-item">
+								<div class="avatar">
+									<img src="@/assets/images/profile-1.png" />
+								</div>
+								<div class="info">
+									<p class="name">李四</p>
+									<p class="comment">课程内容很丰富，讲解的很详细</p>
+								</div>
+							</div>
+							<div class="comment-item">
+								<div class="avatar">
+									<img src="@/assets/images/profile-2.png" />
+								</div>
+								<div class="info">
+									<p class="name">李四</p>
+									<p class="comment">课程内容很丰富，讲解的很详细</p>
+								</div>
+							</div>
+						</div>
+					</template>
+				</Card>
 			</div>
 
 			<div class="left">
@@ -84,51 +81,112 @@
 					<template #title> 课程介绍 </template>
 					<template #content>
 						<p>
-							本课程是软件设计师（软考中级）考试的一站式通关课程，主要讲解软件设计师考试的知识点，包括软件设计基础、软件设计过程、软件设计方法、软件设计工具、软件设计实践等内容。
+							{{ courseInfo?.desc }}
 						</p>
 					</template>
 				</Card>
 
-        <!-- 推荐课程 -->
-        <Card>
-          <template #title> 推荐课程 </template>
-          <template #content>
-            <div class="recommend-course">
-              <div class="item">
-                <img src="@/assets/images/course-1.jpg" />
-                <div class="info">
-                  <a href="#">Learn React With Mini Projects</a>
-                  <p>Author : Reza Mehdikhanlou</p>
-                  <p>Duration : +13h</p>
-                  <p>Lifetime Support</p>
-                </div>
-              </div>
-              <div class="item">
-                <img src="@/assets/images/course-2.jpg" />
-                <div class="info">
-                  <a href="#">Complete Bootstrap Course</a>
-                  <p>Author : Reza Mehdikhanlou</p>
-                  <p>Duration : +13h</p>
-                  <p>Lifetime Support</p>
-                </div>
-              </div>
-              <div class="item">
-                <img src="@/assets/images/course-3.jpg" />
-                <div class="info">
-                  <a href="#">Learn Angular Fundamentals</a>
-                  <p>Author : Reza Mehdikhanlou</p>
-                  <p>Duration : +13h</p>
-                  <p>Lifetime Support</p>
-                </div>
-              </div>
-            </div>
-          </template>
-        </Card>
+				<!-- 推荐课程 -->
+				<Card>
+					<template #title> 推荐课程 </template>
+					<template #content>
+						<div class="recommend-course">
+							<div
+								class="item"
+								v-for="item in recommendList"
+								:key="item.id"
+								@click="skipToCourse(item.id)"
+							>
+              <img :src="`/api/course/cover/${item.cover}`" />
+								<div class="info">
+									<a href="#">{{ item.name }}</a>
+									<p>Cateogry: {{ item.category }}</p>
+									<p class="desc">description: {{ item.desc }}</p>
+								</div>
+							</div>
+						</div>
+					</template>
+				</Card>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script></script>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { getChapterList, getRecommendList } from '@/api/course'
+import { ChapterListItem, CourseInfoItem } from '@/types/course'
+import { useRouter } from 'vue-router'
+import { useToast } from 'primevue/usetoast'
+import { onMounted } from 'vue'
+import { useUserStore } from '@/store/user'
+
+const router = useRouter()
+const toast = useToast()
+const userStore = useUserStore()
+const userInfo = userStore.userInfo
+
+const chapterList = ref<ChapterListItem[]>([])
+const courseInfo = ref<CourseInfoItem | null>(null)
+const recommendList = ref<CourseInfoItem[]>([])
+let courseId = router.currentRoute.value.params.id.toString()
+
+// 跳转到视频播放页面
+const skipToVideo = (id: number) => {
+	router.push({
+		path: '/course/detail/' + courseId + '/' + id
+	})
+}
+
+// 跳转到课程详情页面
+const skipToCourse = (id: number) => {
+	// 清空之前的数据
+	chapterList.value = []
+	courseInfo.value = null
+	router.push({
+		path: '/course/' + id
+	})
+}
+
+const handleGetChapterList = async () => {
+	const res = await getChapterList(courseId)
+	if (res.code === 200) {
+		chapterList.value = res.data.chapter
+		courseInfo.value = res.data.course
+	} else {
+		toast.add({
+			severity: 'error',
+			summary: 'Error',
+			detail: res.msg,
+			life: 3000
+		})
+
+		setTimeout(() => {
+			router.go(-1)
+		}, 1500)
+	}
+}
+
+const handleGetRecommendList = async () => {
+	const res = await getRecommendList(courseId)
+	if (res.code === 200) {
+		recommendList.value = res.data
+		// set title
+		document.title = res.data[0].name
+	}
+}
+
+onMounted(() => {
+	Promise.all([handleGetChapterList(), handleGetRecommendList()])
+})
+
+watch(
+	() => router.currentRoute.value.params.id,
+	async (newId) => {
+		courseId = newId.toString()
+		await Promise.all([handleGetChapterList(), handleGetRecommendList()])
+	}
+)
+</script>
 
 <style scoped></style>

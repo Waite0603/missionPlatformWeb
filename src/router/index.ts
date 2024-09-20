@@ -77,7 +77,7 @@ const router = createRouter({
 					component: () => import('@/views/course/detail/Index.vue')
 				},
 				{
-					path: 'course/detail/:id',
+					path: 'course/detail/:id/:videoId',
 					name: 'courseVideo',
 					component: () => import('@/views/course/videoWatch/Index.vue')
 				}

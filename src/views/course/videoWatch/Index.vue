@@ -43,7 +43,10 @@ import { onMounted } from 'vue'
 import { watch } from 'vue'
 
 const router = useRouter()
-const videoIndex = ref(0)
+// videoId
+const videoIndex = ref(
+	Number(router.currentRoute.value.params.videoId) - 1 || 0
+)
 const videoSrc = ref<string>('')
 const toast = useToast()
 
@@ -53,9 +56,9 @@ const chapterList = ref<ChapterListItem[]>([])
 const handleGetChapterList = async (id: string) => {
 	const res = await getChapterList(id)
 	if (res.code === 200) {
-		chapterList.value = res.data
+		chapterList.value = res.data.chapter
 		items.value = chapterList.value.map((item) => item.name)
-		videoSrc.value = '/api/video/' + chapterList.value[0].video
+		videoSrc.value = '/api/video/' + chapterList.value[+videoIndex.value].video
 	} else {
 		toast.add({
 			severity: 'error',
@@ -71,7 +74,11 @@ const handleGetChapterList = async (id: string) => {
 }
 
 watch(videoIndex, (index) => {
-	videoSrc.value = '/api/video/' + chapterList.value[index].video
+	videoSrc.value = '/api/video/' + chapterList.value[+index].video
+	router.push({
+		path:
+			'/course/detail/' + router.currentRoute.value.params.id + '/' + (index + 1)
+	})
 })
 
 onMounted(() => {

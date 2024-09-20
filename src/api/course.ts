@@ -8,3 +8,12 @@ export const getChapterList = async (courseId: string) => {
 
 	return res.data
 }
+
+// 获取推荐课程
+export const getRecommendList = async (courseId: string) => {
+	const res = await get('/course/recommend', {
+		id: courseId
+	})
+
+	return res.data
+}
