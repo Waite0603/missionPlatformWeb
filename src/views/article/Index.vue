@@ -85,7 +85,7 @@ const getMore = () => {
 onMounted(() => {
 	setTimeout(() => {
 		getArticleList()
-	}, 1000)
+	}, 500)
 })
 </script>
 

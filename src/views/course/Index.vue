@@ -10,167 +10,92 @@
 
 	<div class="content course-page">
 		<div class="type-row">
-			<div class="type-item active">
-				<p>前端开发</p>
+			<div
+				class="type-item"
+				:class="{ active: activeCategory === 0 }"
+				@click="activeCategory = 0"
+			>
+				<p>全部</p>
 			</div>
-			<div class="type-item">
-				<p>前端开发</p>
-			</div>
-			<div class="type-item">
-				<p>前端开发</p>
-			</div>
-			<div class="type-item">
-				<p>前端开发</p>
-			</div>
-			<div class="type-item">
-				<p>前端开发</p>
-			</div>
-			<div class="type-item">
-				<p>前端开发</p>
-			</div>
-			<div class="type-item">
-				<p>前端开发</p>
+			<div
+				class="type-item"
+				v-for="item in categoryList"
+				:key="item.id"
+				:class="{ active: activeCategory === item.id }"
+				@click="activeCategory = item.id"
+			>
+				<p>{{ item.name }}</p>
 			</div>
 		</div>
 
 		<div class="courses">
-			<div class="item">
+			<div class="item" v-for="item in courseList" :key="item.id">
 				<div class="top">
-					<img src="@/assets/images/course-1.jpg" />
+					<img :src="`/api/course/cover/${item.cover}`" alt="course" />
 					<div class="info">
-						<a href="#">Learn React With Mini Projects</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
+						<a :href="`/course/${item.id}`" class="title">
+              {{ item.name }}</a>
+						<p class="desc">{{ item.desc }}</p>
+						<br />
+						<p>Creat Time : {{ item.create_time }}</p>
+						<p>Update Time : {{ item.update_time }}</p>
 					</div>
 				</div>
 				<div class="bottom">
 					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<h5 class="tag"><span>+400</span> Students</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-2.jpg" />
-					<div class="info">
-						<a href="#">Complete Bootstrap Course</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
+						<h5>ID : {{ item.id }}</h5>
+						<h5>Categroy : {{ item.category }}</h5>
 					</div>
 					<div class="discount">
-						<div class="time">
-							<p>Until</p>
-							<h5>3 days</h5>
-						</div>
-						<h5><span>20%</span> Discount</h5>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-3.jpg" />
-					<div class="info">
-						<a href="#">100 Days Of JavaScript</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<h5 class="tag"><span>+400</span> Students</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-4.jpg" />
-					<div class="info">
-						<a href="#">Learn Responsive Design</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<div class="discount">
-						<div class="time">
-							<p>Until</p>
-							<h5>3 days</h5>
-						</div>
-						<h5><span>20%</span> Discount</h5>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-5.jpg" />
-					<div class="info">
-						<a href="#">Learn PHP With Mini Projects</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<h5 class="tag"><span>+400</span> Students</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-6.jpg" />
-					<div class="info">
-						<a href="#">Coding Api With NodeJS</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<div class="discount">
-						<div class="time">
-							<p>Until</p>
-							<h5>3 days</h5>
-						</div>
-						<h5><span>20%</span> Discount</h5>
+						<h5 class="tag" v-if="item.status > 5">
+							<span>会员专享</span> Students
+						</h5>
+						<h5 v-else><span>限时免费</span></h5>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="more">
-			<!-- 向下箭头 -->
+		<!-- <div class="more">
 			<button>
 				<i class="bx bx-down-arrow"></i>
 			</button>
-		</div>
+		</div> -->
 	</div>
 </template>
 
-<script></script>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { getCategoryList, getCourseList } from '@/api/course'
+import { CategoryListItem, CourseInfoItem } from '@/types/course'
+import { onMounted } from 'vue'
 
-<style scoped></style>
+// 获取课程分类列表
+const categoryList = ref<CategoryListItem[]>([])
+// 课程列表
+const activeCategory = ref<number>(0)
+const courseList = ref<CourseInfoItem[]>([])
+
+// 获取课程分类
+const handleGetChapterList = async () => {
+	const res = await getCategoryList()
+	if (res.code === 200) {
+		categoryList.value = res.data
+	}
+}
+
+// 获取课程列表
+const handleGetCourseList = async () => {
+	const res = await getCourseList(activeCategory.value)
+	courseList.value = res.data
+}
+
+watch(activeCategory, () => {
+	handleGetCourseList()
+})
+
+onMounted(() => {
+	handleGetChapterList()
+	handleGetCourseList()
+})
+</script>

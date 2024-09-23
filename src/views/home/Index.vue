@@ -5,8 +5,12 @@
 			<p>Learn Programming With Coach And Mentor!</p>
 		</div>
 		<div class="buttons">
-			<button class="see-all">See Courses</button>
-			<button>What Is Coding?</button>
+			<a href="/course">
+				<button class="see-all">See Courses</button>
+			</a>
+      <a href="/contact">
+        <button >Contact Us</button>
+      </a>
 		</div>
 		<div class="search">
 			<input type="text" placeholder="Search what you want..." />
@@ -21,129 +25,27 @@
 		</div>
 
 		<div class="courses">
-			<div class="item">
+			<div class="item" v-for="item in courseList" :key="item.id">
 				<div class="top">
-					<img src="@/assets/images/course-1.jpg" />
+					<img :src="`/api/course/cover/${item.cover}`" alt="course" />
 					<div class="info">
-						<a href="#">Learn React With Mini Projects</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
+						<a :href="`/course/${item.id}`" class="title"> {{ item.name }}</a>
+						<p class="desc">{{ item.desc }}</p>
+						<br />
+						<p>Creat Time : {{ item.create_time }}</p>
+						<p>Update Time : {{ item.update_time }}</p>
 					</div>
 				</div>
 				<div class="bottom">
 					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<h5 class="tag"><span>+400</span> Students</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-2.jpg" />
-					<div class="info">
-						<a href="#">Complete Bootstrap Course</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
+						<h5>ID : {{ item.id }}</h5>
+						<h5>Categroy : {{ item.category }}</h5>
 					</div>
 					<div class="discount">
-						<div class="time">
-							<p>Until</p>
-							<h5>3 days</h5>
-						</div>
-						<h5><span>20%</span> Discount</h5>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-3.jpg" />
-					<div class="info">
-						<a href="#">100 Days Of JavaScript</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<h5 class="tag"><span>+400</span> Students</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-4.jpg" />
-					<div class="info">
-						<a href="#">Learn Responsive Design</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<div class="discount">
-						<div class="time">
-							<p>Until</p>
-							<h5>3 days</h5>
-						</div>
-						<h5><span>20%</span> Discount</h5>
-					</div>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-5.jpg" />
-					<div class="info">
-						<a href="#">Learn PHP With Mini Projects</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<h5 class="tag"><span>+400</span> Students</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/course-6.jpg" />
-					<div class="info">
-						<a href="#">Coding Api With NodeJS</a>
-						<p>Author : Reza Mehdikhanlou</p>
-						<p>Duration : +13h</p>
-						<p>Lifetime Support</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="price">
-						<h5>Price : 40$</h5>
-						<p>Old Price : 120$</p>
-					</div>
-					<div class="discount">
-						<div class="time">
-							<p>Until</p>
-							<h5>3 days</h5>
-						</div>
-						<h5><span>20%</span> Discount</h5>
+						<h5 class="tag" v-if="item.status > 1">
+							<span>会员专享</span>
+						</h5>
+						<h5 v-else><span>限时免费</span></h5>
 					</div>
 				</div>
 			</div>
@@ -187,114 +89,56 @@
 		</div>
 
 		<div class="separator">
-			<h2>Weekly Podcasts</h2>
-			<a href="#">See all <i class="bx bx-chevron-right"></i></a>
-		</div>
-
-		<div class="podcasts">
-			<div class="item">
-				<div class="top">
-					<i class="bx bx-headphone"></i>
-					<div class="info">
-						<a href="#">Learn Coding</a>
-						<p>10 Aug 2024</p>
-						<p>Listened 100 Times</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="duration">
-						<i class="bx bx-play-circle"></i>
-						<p>01:02:10</p>
-					</div>
-					<h5 class="tag"><span>+210</span> Listeners</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<i class="bx bx-headphone"></i>
-					<div class="info">
-						<a href="#">Learn Coding</a>
-						<p>10 Aug 2024</p>
-						<p>Listened 100 Times</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="duration">
-						<i class="bx bx-play-circle"></i>
-						<p>01:02:10</p>
-					</div>
-					<h5 class="tag"><span>+210</span> Listeners</h5>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<i class="bx bx-headphone"></i>
-					<div class="info">
-						<a href="#">Learn Coding</a>
-						<p>10 Aug 2024</p>
-						<p>Listened 100 Times</p>
-					</div>
-				</div>
-				<div class="bottom">
-					<div class="duration">
-						<i class="bx bx-play-circle"></i>
-						<p>01:02:10</p>
-					</div>
-					<h5 class="tag"><span>+210</span> Listeners</h5>
-				</div>
-			</div>
-		</div>
-
-		<div class="separator">
 			<h2>Blog Articles</h2>
-			<a href="#">See all <i class="bx bx-chevron-right"></i></a>
+			<a href="/articles"> See all <i class="bx bx-chevron-right"></i></a>
 		</div>
 
 		<div class="articles">
-			<div class="item">
+			<div class="item" v-for="item in articleList" :key="item.id">
 				<div class="top">
-					<img src="@/assets/images/art-1.jpg" />
-					<h5>What is unique brand?</h5>
+					<img :src="`/api/article/cover/${item.cover}`" />
+					<h5 v-html="lang === 'en-US' ? item.english_title : item.title"></h5>
 				</div>
 				<div class="bottom">
-					<h5><span>+420</span> Views</h5>
-					<a href="#">Read More <i class="bx bx-chevron-right"></i></a>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/art-2.jpg" />
-					<h5>What is unique brand?</h5>
-				</div>
-				<div class="bottom">
-					<h5><span>+420</span> Views</h5>
-					<a href="#">Read More <i class="bx bx-chevron-right"></i></a>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/art-3.jpg" />
-					<h5>What is unique brand?</h5>
-				</div>
-				<div class="bottom">
-					<h5><span>+420</span> Views</h5>
-					<a href="#">Read More <i class="bx bx-chevron-right"></i></a>
-				</div>
-			</div>
-			<div class="item">
-				<div class="top">
-					<img src="@/assets/images/art-4.jpg" />
-					<h5>What is unique brand?</h5>
-				</div>
-				<div class="bottom">
-					<h5><span>+420</span> Views</h5>
-					<a href="#">Read More <i class="bx bx-chevron-right"></i></a>
+					<h5>{{ item.create_time }}</h5>
+					<a :href="'/article/detail/' + item.id"
+						>Read More <i class="bx bx-chevron-right"></i
+					></a>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import { getIndexRecommendList, getCourseRecommendList } from '@/api/home'
+import { onMounted } from 'vue'
+import { ArticleParams } from '@/types/article'
+import { CourseInfoItem } from '@/types/course'
+
+const articleList = ref<ArticleParams[]>([])
+const courseList = ref<CourseInfoItem[]>([])
+
+const lang = localStorage.getItem('language') || 'en-US'
+
+// 获取课程列表
+const getCourseList = async () => {
+	const res = await getIndexRecommendList()
+	articleList.value = res.data
+}
+
+// 获取文章列表
+const getArticleList = async () => {
+	const res = await getCourseRecommendList()
+	console.log(res)
+	courseList.value = res.data
+}
+
+onMounted(async () => {
+	getArticleList()
+	getCourseList()
+})
+</script>
 
 <style scoped></style>
