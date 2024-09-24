@@ -80,6 +80,7 @@ nav .buttons a {
 		padding: 0;
 	}
 }
+
 header {
 	display: flex;
 	flex-direction: column;
@@ -190,7 +191,7 @@ header .search button {
 	flex-wrap: wrap;
 	gap: 20px;
 	margin-bottom: 100px;
-  margin-left: 1%;
+	margin-left: 1%;
 }
 
 .content .courses .item,
@@ -279,6 +280,8 @@ header .search button {
 
 .content .courses .item .bottom .discount {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
 	gap: 10px;
 }
 
@@ -288,8 +291,8 @@ header .search button {
 }
 
 .content .courses .item .bottom .discount .tag {
-  background-color: #f9d6c1;
-  color: #eb4c0e;
+	background-color: #f9d6c1;
+	color: #eb4c0e;
 }
 
 .loading {
@@ -1462,6 +1465,32 @@ footer .copyright {
 			.p-virtualscroller {
 				height: 100%;
 			}
+		}
+	}
+}
+
+.search-page {
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	padding: 20px 80px;
+
+	.courses .item {
+		width: 49%;
+	}
+
+	.articles .item {
+		width: 32%;
+	}
+}
+
+@media screen and (max-width: 1186px) {
+	.search-page {
+		padding: 20px 20px;
+
+		.courses .item {
+			width: 100%;
 		}
 	}
 }

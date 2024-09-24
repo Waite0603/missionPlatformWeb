@@ -55,12 +55,6 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- <div class="more">
-			<button>
-				<i class="bx bx-down-arrow"></i>
-			</button>
-		</div> -->
 	</div>
 </template>
 
@@ -88,7 +82,7 @@ const handleGetChapterList = async () => {
 const handleGetCourseList = async () => {
 	const res = await getCourseList(activeCategory.value)
 	courseList.value = res.data
-}
+}  
 
 watch(activeCategory, () => {
 	handleGetCourseList()
@@ -99,3 +93,4 @@ onMounted(() => {
 	handleGetCourseList()
 })
 </script>
+c 

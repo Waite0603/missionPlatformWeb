@@ -80,6 +80,11 @@ const router = createRouter({
 					path: 'course/detail/:id/:videoId',
 					name: 'courseVideo',
 					component: () => import('@/views/course/videoWatch/Index.vue')
+				},
+				{
+					path: 'search',
+					name: 'search',
+					component: () => import('@/views/search/Index.vue')
 				}
 			]
 		}

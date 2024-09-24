@@ -1,10 +1,9 @@
 <template>
-  <SearchInput />
+	<SearchInput :keyword="keyword" />
 
-	<div class="content home">
+	<div class="content search-page">
 		<div class="separator">
 			<h2>Popular Courses</h2>
-			<a href="#">See all <i class="bx bx-chevron-right"></i></a>
 		</div>
 
 		<div class="courses">
@@ -33,47 +32,8 @@
 				</div>
 			</div>
 		</div>
-
-		<div class="separator">
-			<h2>Students Comments</h2>
-		</div>
-
-		<div class="comments">
-			<p>
-				These are our students comments. This will help you choose courses
-				better. Also you can contact us for more info!
-			</p>
-			<div class="right">
-				<div class="item">
-					<img src="@/assets/images/profile-3.png" />
-					<p>That was best course for me.</p>
-				</div>
-				<div class="item">
-					<img src="@/assets/images/profile-2.png" />
-					<p>This courses helped me a lot!</p>
-				</div>
-				<div class="item">
-					<img src="@/assets/images/profile-1.png" />
-					<p>That was best course for me.</p>
-				</div>
-				<div class="item">
-					<img src="@/assets/images/profile-1.png" />
-					<p>This courses helped me a lot!</p>
-				</div>
-				<div class="item">
-					<img src="@/assets/images/profile-2.png" />
-					<p>That was best course for me.</p>
-				</div>
-				<div class="item">
-					<img src="@/assets/images/profile-3.png" />
-					<p>This courses helped me a lot!</p>
-				</div>
-			</div>
-		</div>
-
 		<div class="separator">
 			<h2>Blog Articles</h2>
-			<a href="/articles"> See all <i class="bx bx-chevron-right"></i></a>
 		</div>
 
 		<div class="articles">
@@ -94,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import SearchInput from '@/components/SearchInput.vue'
 import { getIndexRecommendList, getCourseRecommendList } from '@/api/home'
 import { onMounted } from 'vue'
@@ -122,6 +82,15 @@ const getArticleList = async () => {
 onMounted(async () => {
 	getArticleList()
 	getCourseList()
+})
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const keyword = ref('')
+
+watchEffect(() => {
+	keyword.value = router.currentRoute.value.query.keyword as string
 })
 </script>
 
