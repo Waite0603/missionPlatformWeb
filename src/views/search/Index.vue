@@ -1,7 +1,7 @@
 <template>
 	<SearchInput :keyword="keyword" />
 
-	<div class="content search-page">
+	<div class="content search-page" v-if="keyword !== void 0">
 		<div class="separator">
 			<h2>Popular Courses</h2>
 		</div>
@@ -31,6 +31,9 @@
 					</div>
 				</div>
 			</div>
+			<div class="nofound" v-if="courseList.length === 0">
+				<h3>No course found</h3>
+			</div>
 		</div>
 		<div class="separator">
 			<h2>Blog Articles</h2>
@@ -49,6 +52,9 @@
 					></a>
 				</div>
 			</div>
+			<div class="nofound" v-if="articleList.length === 0">
+				<h3>No article found</h3>
+			</div>
 		</div>
 	</div>
 </template>
@@ -56,10 +62,14 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import SearchInput from '@/components/SearchInput.vue'
-import { getIndexRecommendList, getCourseRecommendList } from '@/api/home'
+import { getSearchCourseList, getSearchArticleList } from '@/api/search'
 import { onMounted } from 'vue'
 import { ArticleParams } from '@/types/article'
 import { CourseInfoItem } from '@/types/course'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const keyword = ref('')
 
 const articleList = ref<ArticleParams[]>([])
 const courseList = ref<CourseInfoItem[]>([])
@@ -68,29 +78,26 @@ const lang = localStorage.getItem('language') || 'en-US'
 
 // 获取课程列表
 const getCourseList = async () => {
-	const res = await getIndexRecommendList()
-	articleList.value = res.data
+	const res = await getSearchCourseList(keyword.value)
+
+	courseList.value = res.data
 }
 
 // 获取文章列表
 const getArticleList = async () => {
-	const res = await getCourseRecommendList()
-	console.log(res)
-	courseList.value = res.data
+	const res = await getSearchArticleList(keyword.value)
+	articleList.value = res.data
 }
 
-onMounted(async () => {
+watchEffect(() => {
+	keyword.value = router.currentRoute.value.query.keyword as string
 	getArticleList()
 	getCourseList()
 })
 
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const keyword = ref('')
-
-watchEffect(() => {
-	keyword.value = router.currentRoute.value.query.keyword as string
+onMounted(async () => {
+	getArticleList()
+	getCourseList()
 })
 </script>
 

@@ -47,7 +47,7 @@
 						<h5>Categroy : {{ item.category }}</h5>
 					</div>
 					<div class="discount">
-						<h5 class="tag" v-if="item.status > 5">
+						<h5 class="tag" v-if="item.status > 1">
 							<span>会员专享</span> Students
 						</h5>
 						<h5 v-else><span>限时免费</span></h5>
@@ -82,7 +82,7 @@ const handleGetChapterList = async () => {
 const handleGetCourseList = async () => {
 	const res = await getCourseList(activeCategory.value)
 	courseList.value = res.data
-}  
+}
 
 watch(activeCategory, () => {
 	handleGetCourseList()
@@ -93,4 +93,4 @@ onMounted(() => {
 	handleGetCourseList()
 })
 </script>
-c 
+c
