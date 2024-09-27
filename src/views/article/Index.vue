@@ -46,9 +46,10 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref, onMounted } from 'vue'
+import { Ref, ref, onMounted, watch } from 'vue'
 import { escapeHtml } from '@/utils/utils'
 import { ArticleParams, PageTotalParams } from '@/types/article'
+import { i18n } from '@/lang/index'
 
 // import Button from 'primevue/button'
 import { getArticleListAPI } from '@/api/article'
@@ -60,8 +61,12 @@ const pageInfo: Ref<PageTotalParams> = ref({
 	total: 100
 })
 
-// get localstorage language
-const lang = localStorage.getItem('language') || 'en-US'
+let lang = localStorage.getItem('language') || 'en-US'
+
+const locale = i18n.global.locale
+watch(locale, () => {
+	lang = localStorage.getItem('language') || 'en-US'
+})
 
 // 文章列表
 const articleList = ref<ArticleParams[]>([])

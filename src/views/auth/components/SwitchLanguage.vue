@@ -15,7 +15,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { changeLanguage } from '@/lang/index'
-import Dropdown from 'primevue/dropdown'
 
 const languages = ref([
 	{ name: 'English', languages: 'en-US' },

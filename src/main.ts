@@ -25,4 +25,6 @@ app.use(ToastService)
 app.use(ConfirmationService)
 app.use(VueCropper)
 
+app.config.globalProperties.$t = i18n.global.t
+
 app.mount('#app')

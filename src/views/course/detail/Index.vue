@@ -30,7 +30,9 @@
 				</div>
 			</div>
 			<div class="btn-box" v-if="userInfo?.status < 5">
-				<Button label="Danger" severity="danger" rounded>开通会员</Button>
+        <a href="/vip">
+          <Button label="开通会员" severity="danger" rounded />
+        </a>
 			</div>
 		</div>
 

@@ -3,6 +3,9 @@ import {
 	createWebHistory,
 	RouteLocationNormalized
 } from 'vue-router'
+import { i18n } from '@/lang/index'
+
+const $t = i18n.global.t
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -14,12 +17,12 @@ const router = createRouter({
 			children: [
 				{
 					path: 'login',
-					name: 'login',
+					name: $t('layout.login'),
 					component: () => import('@/views/auth/Login.vue')
 				},
 				{
 					path: 'register',
-					name: 'register',
+					name: $t('layout.register'),
 					component: () => import('@/views/auth/Register.vue')
 				}
 			]
@@ -31,12 +34,12 @@ const router = createRouter({
 			children: [
 				{
 					path: '',
-					name: 'home',
+					name: $t('layout.home'),
 					component: () => import('@/views/home/Index.vue')
 				},
 				{
 					path: 'articles',
-					name: 'articles',
+					name: $t('layout.article'),
 					component: () => import('@/views/article/Index.vue')
 				},
 				{
@@ -102,8 +105,6 @@ router.beforeEach(
 		from: RouteLocationNormalized,
 		next: () => void
 	) => {
-		console.log(from, document)
-		console.log(to)
 		if (to.name) {
 			document.title = String(to.name)
 		}

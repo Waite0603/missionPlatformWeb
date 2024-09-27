@@ -5,27 +5,30 @@
 				<img src="@/assets/images/logo.png" />
 			</div>
 			<div class="links">
-				<a href="/">Home</a>
-				<a href="/course">Courses</a>
-				<a href="/articles">Articles</a>
-				<a href="#">Podcasts</a>
-				<a href="/contact">Contact Us</a>
+				<a href="/">{{ $t('layout.home') }}</a>
+				<a href="/course">{{ $t('layout.course') }}</a>
+				<a href="/articles">{{ $t('layout.article') }}</a>
+				<a href="/contact">{{ $t('layout.contact') }}</a>
 			</div>
 		</div>
 
 		<div class="buttons">
-			<a href="#"><i class="bx bx-support"></i></a>
+			<!-- 提示 -->
+			<a
+				href="#"
+				@click="changeI18n"
+				v-tooltip.bottom="$t('layout.switchLang')"
+			>
+				<i class="bx bx-world"></i>
+			</a>
 			<!-- VIP -->
 			<a href="/vip">
 				<i
 					class="bx bx-diamond"
 					style="color: #f8b400"
-					v-if="user.userInfo.status !== 1"
+					v-if="user.userInfo && user.userInfo.status !== 1"
 				></i>
-        <i
-          class="bx bx-diamond"
-          v-else
-        ></i>
+				<i class="bx bx-diamond" v-else></i>
 			</a>
 			<a href="/user/profile"><i class="bx bx-user"></i></a>
 		</div>
@@ -34,6 +37,16 @@
 
 <script setup lang="ts">
 import '@/assets/css/home.scss'
+import { changeLanguage } from '@/lang/index'
+import { ref } from 'vue'
 
 const user = JSON.parse(localStorage.getItem('user') || '{}')
+const language = ref(
+	(localStorage.getItem('language') as 'en-US' | 'zh-CN') || 'en-US'
+)
+
+const changeI18n = () => {
+	language.value = language.value === 'en-US' ? 'zh-CN' : 'en-US'
+	changeLanguage(language.value)
+}
 </script>

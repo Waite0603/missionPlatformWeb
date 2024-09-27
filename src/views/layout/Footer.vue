@@ -2,30 +2,28 @@
 	<footer>
 		<div class="columns">
 			<div class="col">
-				<h5>Site Links</h5>
-				<a href="#">Articles</a>
-				<a href="#">Podcasts</a>
-				<a href="#">About Us</a>
-				<a href="#">Contact Us</a>
+				<h5>{{ $t('layout.siteLink') }}</h5>
+				<a href="/">{{ $t('layout.home') }}</a>
+				<a href="/course">{{ $t('layout.course') }}</a>
+				<a href="/articles">{{ $t('layout.article') }}</a>
+				<a href="/contact">{{ $t('layout.contact') }}</a>
 			</div>
 			<div class="col">
-				<h5>Other Pages</h5>
-				<a href="#">404 Page</a>
-				<a href="#">Login|Register</a>
-				<a href="#">Privacy Policy</a>
+				<h5>{{ $t('layout.otherPage') }}</h5>
+				<a href="/404">{{ $t('layout.404') }}</a>
+				<a href="/auth/login">{{ $t('layout.login') }}</a>
+				<a href="/auth/register">{{ $t('layout.register') }}</a>
 			</div>
 			<div class="col">
-				<h5>Collaboration</h5>
-				<a href="#">Work With Us</a>
-				<a href="#">Affiliate</a>
-				<a href="#">Support</a>
+				<h5>{{ $t('layout.collaboration') }}</h5>
+				<a href="https://waite.wang/" target="_blank">{{
+					$t('layout.blog')
+				}}</a>
 			</div>
 			<div class="col last">
-				<h5>About Us</h5>
+				<h5>{{ $t('layout.about') }}</h5>
 				<p>
-					Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab ad
-					incidunt deleniti eligendi, vel quaerat a doloremque, quo id maiores
-					suscipit ex iste accusantium.
+					{{ $t('layout.aboutContent') }}
 				</p>
 				<div class="social-links">
 					<i class="bx bxl-instagram"></i>
@@ -36,7 +34,13 @@
 			</div>
 		</div>
 		<div class="copyright">
-			<p>Copyright © 2024 AsmrProg, All Rights Reserved.</p>
+			<p>
+				Copyright © 2024 By
+				<a href="https://waite.wang/" target="_blank" style="color: #fff"
+					>Waite</a
+				>
+				, All Rights Reserved.
+			</p>
 		</div>
 	</footer>
 </template>

@@ -1,21 +1,21 @@
 <template>
 	<header>
 		<div class="info">
-			<h1>Learn Coding Easier With AsmrProg</h1>
-			<p>Learn Programming With Coach And Mentor!</p>
+			<h1>{{ $t('layout.hometitle') }}</h1>
+			<p>{{ $t('layout.homecontent') }}</p>
 		</div>
 		<div class="buttons">
 			<a href="/course">
-				<button class="see-all">See Courses</button>
+				<button class="see-all">{{ $t('layout.seeCourse') }}</button>
 			</a>
 			<a href="/contact">
-				<button>Contact Us</button>
+				<button>{{ $t('layout.contact') }}</button>
 			</a>
 		</div>
 		<div class="search">
 			<input
 				type="text"
-				placeholder="Search what you want..."
+				:placeholder="$t('layout.searchPlaceholder')"
 				v-model="searchText"
 				@keyup.enter="search"
 			/>

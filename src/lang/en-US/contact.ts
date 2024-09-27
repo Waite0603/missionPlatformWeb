@@ -5,5 +5,9 @@ export default {
 	name: 'Name',
 	email: 'Email',
 	message: 'Message',
-	submit: 'Send Message'
+	submit: 'Send Message',
+	nameError: 'Please enter your name',
+	emailError: 'Please enter your email',
+	emailFormatError: 'Please enter the correct email',
+	messageError: 'Please enter the message'
 }

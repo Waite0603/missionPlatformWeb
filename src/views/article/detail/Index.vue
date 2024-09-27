@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getArticle, getRecommend } from '@/api/article'
@@ -74,14 +74,17 @@ import { useToast } from 'primevue/usetoast'
 
 const router = useRouter()
 
-// i18n
 const $t = i18n.global.t
+
+// 获取中文/ 英文
+let lang = localStorage.getItem('language') || 'en-US'
+const locale = i18n.global.locale
+watch(locale, () => {
+	lang = localStorage.getItem('language') || 'en-US'
+})
 
 // toast
 const toast = useToast()
-
-// 获取中文/ 英文
-const lang = localStorage.getItem('language') || 'en-US'
 
 const articleData = ref<ArticleParams | null>(null)
 const articleInfo = ref<ArticleInfoParams | null>(null)
