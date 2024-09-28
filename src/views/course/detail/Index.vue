@@ -30,9 +30,9 @@
 				</div>
 			</div>
 			<div class="btn-box" v-if="userInfo?.status < 5">
-        <a href="/vip">
-          <Button label="开通会员" severity="danger" rounded />
-        </a>
+				<a href="/vip">
+					<Button label="开通会员" severity="danger" rounded />
+				</a>
 			</div>
 		</div>
 
@@ -47,6 +47,12 @@
 								<span>{{ item.name }}</span>
 							</li>
 						</ul>
+						<!-- 会员课程, 用户未登录或者不是会员，显示 -->
+						<div
+							v-if="courseInfo && courseInfo.status > 1 && userInfo?.status < 5"
+						>
+							<p>该课程为会员专享课程，请先开通会员</p>
+						</div>
 					</template>
 				</Card>
 
@@ -99,7 +105,7 @@
 								:key="item.id"
 								@click="skipToCourse(item.id)"
 							>
-              <img :src="`/api/course/cover/${item.cover}`" />
+								<img :src="`/api/course/cover/${item.cover}`" />
 								<div class="info">
 									<a href="#">{{ item.name }}</a>
 									<p>Cateogry: {{ item.category }}</p>
@@ -135,6 +141,19 @@ let courseId = router.currentRoute.value.params.id.toString()
 
 // 跳转到视频播放页面
 const skipToVideo = (id: number) => {
+	if (courseInfo.value && courseInfo.value!.status > 1 && userInfo?.status < 5) {
+		toast.add({
+			severity: 'error',
+			summary: 'Error',
+			detail: '该课程为会员专享课程，请先开通会员',
+			life: 3000
+		})
+		return
+	}
+
+	// 清空数据
+	chapterList.value = []
+	courseInfo.value = null
 	router.push({
 		path: '/course/detail/' + courseId + '/' + id
 	})
@@ -142,9 +161,6 @@ const skipToVideo = (id: number) => {
 
 // 跳转到课程详情页面
 const skipToCourse = (id: number) => {
-	// 清空之前的数据
-	chapterList.value = []
-	courseInfo.value = null
 	router.push({
 		path: '/course/' + id
 	})
@@ -155,6 +171,8 @@ const handleGetChapterList = async () => {
 	if (res.code === 200) {
 		chapterList.value = res.data.chapter
 		courseInfo.value = res.data.course
+
+		document.title = res.data.course.name
 	} else {
 		toast.add({
 			severity: 'error',
@@ -173,8 +191,6 @@ const handleGetRecommendList = async () => {
 	const res = await getRecommendList(courseId)
 	if (res.code === 200) {
 		recommendList.value = res.data
-		// set title
-		document.title = res.data[0].name
 	}
 }
 
@@ -184,9 +200,9 @@ onMounted(() => {
 
 watch(
 	() => router.currentRoute.value.params.id,
-	async (newId) => {
-		courseId = newId.toString()
-		await Promise.all([handleGetChapterList(), handleGetRecommendList()])
+	() => {
+		courseId = router.currentRoute.value.params.id.toString()
+		Promise.all([handleGetChapterList(), handleGetRecommendList()])
 	}
 )
 </script>
