@@ -57,31 +57,7 @@
 				</Card>
 
 				<!-- 评论区 -->
-				<Card class="comment-card">
-					<template #title> 评论 </template>
-					<template #content>
-						<div class="comment-box">
-							<div class="comment-item">
-								<div class="avatar">
-									<img src="@/assets/images/profile-1.png" />
-								</div>
-								<div class="info">
-									<p class="name">李四</p>
-									<p class="comment">课程内容很丰富，讲解的很详细</p>
-								</div>
-							</div>
-							<div class="comment-item">
-								<div class="avatar">
-									<img src="@/assets/images/profile-2.png" />
-								</div>
-								<div class="info">
-									<p class="name">李四</p>
-									<p class="comment">课程内容很丰富，讲解的很详细</p>
-								</div>
-							</div>
-						</div>
-					</template>
-				</Card>
+				<Comment :courseStatus="courseInfo?.status" />
 			</div>
 
 			<div class="left">
@@ -121,6 +97,7 @@
 </template>
 
 <script setup lang="ts">
+import Comment from '../components/Comment.vue'
 import { ref, watch } from 'vue'
 import { getChapterList, getRecommendList } from '@/api/course'
 import { ChapterListItem, CourseInfoItem } from '@/types/course'
@@ -141,7 +118,11 @@ let courseId = router.currentRoute.value.params.id.toString()
 
 // 跳转到视频播放页面
 const skipToVideo = (id: number) => {
-	if (courseInfo.value && courseInfo.value!.status > 1 && userInfo?.status < 5) {
+	if (
+		courseInfo.value &&
+		courseInfo.value!.status > 1 &&
+		userInfo?.status < 5
+	) {
 		toast.add({
 			severity: 'error',
 			summary: 'Error',
@@ -203,6 +184,7 @@ watch(
 	() => {
 		courseId = router.currentRoute.value.params.id.toString()
 		Promise.all([handleGetChapterList(), handleGetRecommendList()])
+		window.scrollTo(0, 0)
 	}
 )
 </script>

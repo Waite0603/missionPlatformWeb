@@ -26,7 +26,7 @@
 				<i
 					class="bx bx-diamond"
 					style="color: #f8b400"
-					v-if="user.userInfo && user.userInfo.status !== 1"
+					v-if="user && user.status !== 1"
 				></i>
 				<i class="bx bx-diamond" v-else></i>
 			</a>
@@ -38,9 +38,32 @@
 <script setup lang="ts">
 import '@/assets/css/home.scss'
 import { changeLanguage } from '@/lang/index'
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+import { useUserStore } from '@/store/user'
+import { getUserInfo } from '@/api/auth'
 
-const user = JSON.parse(localStorage.getItem('user') || '{}')
+const userStore = useUserStore()
+
+const user = userStore ? userStore.userInfo : null
+
+const getUser = async () => {
+	try {
+		const res = await getUserInfo()
+		if (res.code === 200) {
+			userStore.setUserInfo(res.data)
+		}
+	} catch (error) {
+		userStore.clearState()
+	}
+}
+
+watch(
+	() => userStore.userInfo,
+	() => {
+		user.value = userStore.userInfo
+	}
+)
+
 const language = ref(
 	(localStorage.getItem('language') as 'en-US' | 'zh-CN') || 'en-US'
 )
@@ -49,4 +72,8 @@ const changeI18n = () => {
 	language.value = language.value === 'en-US' ? 'zh-CN' : 'en-US'
 	changeLanguage(language.value)
 }
+
+onMounted(() => {
+	getUser()
+})
 </script>

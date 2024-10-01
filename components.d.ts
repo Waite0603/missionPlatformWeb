@@ -44,6 +44,7 @@ declare module 'vue' {
     Tabs: typeof import('primevue/tabs')['default']
     Textarea: typeof import('primevue/textarea')['default']
     TieredMenu: typeof import('primevue/tieredmenu')['default']
+    UpdateUser: typeof import('./src/components/UpdateUser.vue')['default']
     VirtualScroller: typeof import('primevue/virtualscroller')['default']
   }
   export interface ComponentCustomProperties {

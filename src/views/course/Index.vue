@@ -48,7 +48,7 @@
 					</div>
 					<div class="discount">
 						<h5 class="tag" v-if="item.status > 1">
-							<span>会员专享</span> Students
+							<span>会员专享</span>
 						</h5>
 						<h5 v-else><span>限时免费</span></h5>
 					</div>

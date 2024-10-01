@@ -4,15 +4,19 @@
 			<div class="container">
 				<h1>Join VIP</h1>
 				<p>Get access to all our courses, articles, and podcasts.</p>
-				<div v-if="user.userInfo.status !== 1">
+				<!-- 未登录 -->
+				<div v-if="!user">
+					<p>Please
+            <router-link to="/auth/login">login</router-link>
+            to join VIP</p>
+				</div>
+				<div v-if="user && user.status.status !== 1">
 					<p>您已经是 VIP 会员</p>
-					<p v-if="user.userInfo.status === 5">
-						到期时间: {{ user.userInfo.vip_end_time }}
-					</p>
+					<p v-if="user.status === 5">到期时间: {{ user.vip_end_time }}</p>
 					<p v-else>终身会员欢迎您！</p>
 				</div>
 				<!--激活码 -->
-				<div v-if="user.userInfo.status !== 10">
+				<div v-if="user && user.status !== 10">
 					<InputText placeholder="Enter activation code" />
 					<Button label="Activate" style="margin-left: 10px"></Button>
 				</div>
@@ -36,7 +40,7 @@
 						outlined
 						class="w-full"
 						@click="openVip(5)"
-						v-if="user.userInfo.status === 1"
+						v-if="user && user.status === 1"
 					/>
 					<Button
 						label="点击续费"
@@ -44,7 +48,7 @@
 						outlined
 						class="w-full"
 						@click="openVip(5)"
-						v-if="user.userInfo.status === 5"
+						v-if="user && user.status === 5"
 					/>
 				</template>
 			</Card>
@@ -64,7 +68,7 @@
 						outlined
 						class="w-full"
 						@click="openVip(10)"
-						v-if="user.userInfo.status === 1"
+						v-if="user && user.status.status === 1"
 					/>
 					<Button
 						label="点击续费"
@@ -72,7 +76,7 @@
 						outlined
 						class="w-full"
 						@click="openVip(10)"
-						v-if="user.userInfo.status === 5"
+						v-if="user && user.status.status === 5"
 					/>
 				</template>
 			</Card>
@@ -110,7 +114,7 @@ const $t = i18n.global.t
 const useUser = useUserStore()
 
 // 获取当前用户, localStorage.getItem('user')
-const user = ref(JSON.parse(localStorage.getItem('user') || '{}'))
+const user = ref(useUser.userInfo)
 
 console.log(user.value)
 
@@ -182,6 +186,12 @@ const openVip = async (vipType: number) => {
 	color: #fff;
 	padding: 100px 0;
 	text-align: center;
+  a {
+    color: #fff;
+  }
+  a:hover {
+    color: #6f9adf;
+  }
 }
 
 .vip-product-card {

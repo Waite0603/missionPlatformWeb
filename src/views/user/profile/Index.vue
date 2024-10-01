@@ -137,8 +137,6 @@ onMounted(async () => {
 				'/api/auth/avatar/preview?avatar=' + profile.value.avatar
 		})
 		.catch((res) => {
-			console.log(res)
-			console.log(res.response.data.msg)
 			toast.add({
 				severity: 'error',
 				summary: $t('toast.error'),

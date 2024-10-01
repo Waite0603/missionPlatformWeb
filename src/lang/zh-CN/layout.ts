@@ -17,5 +17,10 @@ export default {
 	hometitle: '使用智途更轻松地学习编码',
 	homecontent: '智途是一个在线学习平台，致力于帮助学生更轻松地学习编码。',
 	seeCourse: '查看课程',
-	searchPlaceholder: '搜索你想要的内容...'
+	searchPlaceholder: '搜索你想要的内容...',
+	popularCourse: '热门课程',
+	studentComments: '学生评价',
+	studentCommentsContent:
+		'这是我们学生的评价。这将帮助您更好地选择课程。您也可以联系我们获取更多信息！',
+	blogArticle: '博客文章'
 }

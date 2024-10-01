@@ -3,7 +3,7 @@
 
 	<div class="content home">
 		<div class="separator">
-			<h2>Popular Courses</h2>
+			<h2> {{ $t('layout.popularCourse') }} </h2>
 			<a href="#">See all <i class="bx bx-chevron-right"></i></a>
 		</div>
 
@@ -35,13 +35,12 @@
 		</div>
 
 		<div class="separator">
-			<h2>Students Comments</h2>
+			<h2> {{ $t('layout.studentComments') }} </h2>
 		</div>
 
 		<div class="comments">
 			<p>
-				These are our students comments. This will help you choose courses
-				better. Also you can contact us for more info!
+        {{ $t('layout.studentCommentsContent') }}
 			</p>
 			<div class="right">
 				<div class="item">
@@ -72,7 +71,7 @@
 		</div>
 
 		<div class="separator">
-			<h2>Blog Articles</h2>
+			<h2> {{ $t('layout.blogArticle') }} </h2>
 			<a href="/articles"> See all <i class="bx bx-chevron-right"></i></a>
 		</div>
 
