@@ -30,7 +30,12 @@
 				></i>
 				<i class="bx bx-diamond" v-else></i>
 			</a>
-			<a href="/user/profile"><i class="bx bx-user"></i></a>
+			<a href="/user/profile" v-if="user">
+        <i class="bx bx-user"></i>
+      </a>
+      <a href="/auth/login" v-else>
+        <i class="bx bx-user"></i>
+      </a>
 		</div>
 	</nav>
 </template>

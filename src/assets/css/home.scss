@@ -1282,35 +1282,34 @@ footer .copyright {
 				padding: 10px;
 
 				.comment-box {
-          .comment-input {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 10px;
-            text-align: center;
+					.comment-input {
+						display: flex;
+						flex-direction: column;
+						gap: 10px;
+						margin-bottom: 10px;
+						text-align: center;
 
-            .comment-textarea {
-              width: 100%;
-              padding: 10px;
-              min-height: 5em;
-              border-radius: 10px;
-              border: 1px solid #ccc;
-              outline: none;
-              resize: none;
-            }
+						.comment-textarea {
+							width: 100%;
+							padding: 10px;
+							min-height: 5em;
+							border-radius: 10px;
+							border: 1px solid #ccc;
+							outline: none;
+							resize: none;
+						}
 
-            .comment-textarea:focus {
-              border: 1px solid #2d79f3;
-            }
+						.comment-textarea:focus {
+							border: 1px solid #2d79f3;
+						}
 
-            .comment-btn {
-              float: right;
-              margin-top: 10px;
-              padding: 10px 20px;
-              width: 80px;
-            }
-
-          }
+						.comment-btn {
+							float: right;
+							margin-top: 10px;
+							padding: 10px 20px;
+							width: 80px;
+						}
+					}
 					.comment-item {
 						display: flex;
 						gap: 10px;
@@ -1403,15 +1402,47 @@ footer .copyright {
 			}
 		}
 	}
+}
 
-	@media screen and (max-width: 768px) {
-		.course-detail-page {
+@media screen and (max-width: 768px) {
+	.course-detail-page {
+		.course-detail-banner {
 			padding: 20px 40px;
 
+			.banner {
+				h1 {
+					font-size: 30px;
+				}
+				p {
+					font-size: 16px;
+				}
+
+				.info-box {
+					font-size: 14px;
+					gap: 5px;
+				}
+			}
 			.btn-box {
-				display: none;
+				position: static;
+        text-align: end;
+				margin-top: 20px;
 			}
 		}
+
+    .course-content {
+      padding: 20px 40px;
+      flex-direction: column;
+
+      .right {
+        width: 100%;
+      }
+
+      .left {
+        width: 100%;
+      }
+    }
+
+
 	}
 }
 
@@ -1506,12 +1537,12 @@ footer .copyright {
 	padding: 20px 80px;
 
 	.courses {
-    margin-bottom: 20px;
+		margin-bottom: 20px;
 
-    .item {
-      width: 48%;
-    }
-  }
+		.item {
+			width: 48%;
+		}
+	}
 
 	.articles {
 		display: flex;

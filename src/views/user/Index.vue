@@ -5,12 +5,12 @@
 				<li class="active">
 					<router-link to="/user/profile">个人资料</router-link>
 				</li>
-				<li>
+				<!-- <li>
 					<router-link to="/user/privacy">隐私设置</router-link>
 				</li>
 				<li>
 					<router-link to="/user/account">账号绑定</router-link>
-				</li>
+				</li> -->
 				<li>
 					<!-- logout -->
 					<a @click="logout">退出登录</a>
