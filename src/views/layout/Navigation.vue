@@ -30,7 +30,7 @@
 				></i>
 				<i class="bx bx-diamond" v-else></i>
 			</a>
-			<a href="/user/profile" v-if="user">
+			<a href="/user/profile" v-if="user" style="color: #5591F1;">
         <i class="bx bx-user"></i>
       </a>
       <a href="/auth/login" v-else>

@@ -29,7 +29,7 @@ export type CourseInfoItem = {
 export type CategoryListItem = {
 	id: number
 	name: string
-  desc: string
+	desc: string
 	create_time: string
 	update_time: string
 }

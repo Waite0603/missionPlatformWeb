@@ -68,15 +68,7 @@
 						outlined
 						class="w-full"
 						@click="openVip(10)"
-						v-if="user && user.status.status === 1"
-					/>
-					<Button
-						label="点击续费"
-						severity="secondary"
-						outlined
-						class="w-full"
-						@click="openVip(10)"
-						v-if="user && user.status.status === 5"
+						v-if="user && user.status <= 10"
 					/>
 				</template>
 			</Card>
