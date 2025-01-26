@@ -1,5 +1,9 @@
 <template>
-	<div class="video-container">
+	<div v-if="isLoading" class="loading-container">
+		<ProgressSpinner />
+	</div>
+
+	<div class="video-container" v-else>
 		<div class="video-player">
 			<video
 				id="thing-v"
@@ -41,6 +45,8 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'primevue/usetoast'
 import { onMounted } from 'vue'
 import { watch } from 'vue'
+import { delay } from '@/utils/utils'
+import ProgressSpinner from 'primevue/progressspinner'
 
 const router = useRouter()
 // videoId
@@ -49,12 +55,16 @@ const videoIndex = ref(
 )
 const videoSrc = ref<string>('')
 const toast = useToast()
+const isLoading = ref(false)
 
 const items = ref<string[]>([])
 const chapterList = ref<ChapterListItem[]>([])
 
 const handleGetChapterList = async (id: string) => {
+	isLoading.value = true
 	const res = await getChapterList(id)
+	await delay(800)
+
 	if (res.code === 200) {
 		chapterList.value = res.data.chapter
 		items.value = chapterList.value.map((item) => item.name)
@@ -71,6 +81,7 @@ const handleGetChapterList = async (id: string) => {
 			router.go(-1)
 		}, 1500)
 	}
+	isLoading.value = false
 }
 
 watch(videoIndex, (index) => {
@@ -87,4 +98,11 @@ onMounted(() => {
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.loading-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 300px;
+}
+</style>

@@ -1,35 +1,35 @@
-// 课程播放列表类型
+// 课程章节列表项类型定义
 export type ChapterListItem = {
-	id: number
-	name: string
-	course_id: number
-	video: string
-	create_time: string
-	update_time: string
-	watch_num: number
-	author_id: number
-	status: number
+	id: number // 章节ID
+	name: string // 章节名称
+	course_id: number // 所属课程ID
+	video: string // 视频地址
+	create_time: string // 创建时间
+	update_time: string // 更新时间
+	watch_num: number // 观看次数
+	author_id: number // 作者ID
+	status: number // 状态：0-未发布，1-已发布
 }
 
-// 课程信息类型
+// 课程基本信息类型定义
 export type CourseInfoItem = {
-	id: number
-	name: string
-	desc: string
-	cover: string
-	create_time: string
-	update_time: string
-	category_id: number
-	category: string
-	author_id: number
-	status: number
+	id: number // 课程ID
+	name: string // 课程名称
+	desc: string // 课程描述
+	cover: string // 课程封面
+	create_time: string // 创建时间
+	update_time: string // 更新时间
+	category_id: number // 分类ID
+	category: string // 分类名称
+	author_id: number // 作者ID
+	status: number // 状态：0-未发布，1-已发布
 }
 
-// 课程分类类型
+// 课程分类项类型定义
 export type CategoryListItem = {
-	id: number
-	name: string
-	desc: string
-	create_time: string
-	update_time: string
+	id: number // 分类ID
+	name: string // 分类名称
+	desc: string // 分类描述
+	create_time: string // 创建时间
+	update_time: string // 更新时间
 }

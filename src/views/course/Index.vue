@@ -28,10 +28,14 @@
 			</div>
 		</div>
 
-		<div class="courses">
+		<div v-if="isLoadingCourses" class="section-loading">
+			<ProgressSpinner style="width: 100px; height: 100px" />
+		</div>
+
+		<div class="courses" v-else>
 			<div class="item" v-for="item in courseList" :key="item.id">
 				<div class="top">
-					<img :src="`/api/course/cover/${item.cover}`" alt="course" />
+					<img v-lazy="`/api/course/cover/${item.cover}`" alt="course" />
 					<div class="info">
 						<a :href="`/course/${item.id}`" class="title">
               {{ item.name }}</a>
@@ -63,12 +67,14 @@ import { ref, watch } from 'vue'
 import { getCategoryList, getCourseList } from '@/api/course'
 import { CategoryListItem, CourseInfoItem } from '@/types/course'
 import { onMounted } from 'vue'
+import { delay } from '@/utils/utils'
+import ProgressSpinner from 'primevue/progressspinner'
+import vLazy from '@/directives/lazyLoad'
 
-// 获取课程分类列表
 const categoryList = ref<CategoryListItem[]>([])
-// 课程列表
 const activeCategory = ref<number>(0)
 const courseList = ref<CourseInfoItem[]>([])
+const isLoadingCourses = ref(false)
 
 // 获取课程分类
 const handleGetChapterList = async () => {
@@ -80,8 +86,11 @@ const handleGetChapterList = async () => {
 
 // 获取课程列表
 const handleGetCourseList = async () => {
+	isLoadingCourses.value = true
 	const res = await getCourseList(activeCategory.value)
+	await delay(800)
 	courseList.value = res.data
+	isLoadingCourses.value = false
 }
 
 watch(activeCategory, () => {
@@ -93,4 +102,12 @@ onMounted(() => {
 	handleGetCourseList()
 })
 </script>
-c
+
+<style scoped>
+.section-loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100px;
+}
+</style>

@@ -74,7 +74,10 @@
 				<Card>
 					<template #title> 推荐课程 </template>
 					<template #content>
-						<div class="recommend-course">
+						<div v-if="isLoadingRecommend" class="section-loading">
+							<ProgressSpinner style="width: 30px; height: 30px" />
+						</div>
+						<div class="recommend-course" v-else>
 							<div
 								class="item"
 								v-for="item in recommendList"
@@ -105,6 +108,8 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'primevue/usetoast'
 import { onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
+import { delay } from '@/utils/utils'
+import ProgressSpinner from 'primevue/progressspinner'
 
 const router = useRouter()
 const toast = useToast()
@@ -114,6 +119,8 @@ const userInfo = userStore.userInfo
 const chapterList = ref<ChapterListItem[]>([])
 const courseInfo = ref<CourseInfoItem | null>(null)
 const recommendList = ref<CourseInfoItem[]>([])
+const isLoadingCourse = ref(false)
+const isLoadingRecommend = ref(false)
 let courseId = router.currentRoute.value.params.id.toString()
 
 // 跳转到视频播放页面
@@ -148,11 +155,12 @@ const skipToCourse = (id: number) => {
 }
 
 const handleGetChapterList = async () => {
+	isLoadingCourse.value = true
 	const res = await getChapterList(courseId)
+	await delay(800)
 	if (res.code === 200) {
 		chapterList.value = res.data.chapter
 		courseInfo.value = res.data.course
-
 		document.title = res.data.course.name
 	} else {
 		toast.add({
@@ -161,18 +169,21 @@ const handleGetChapterList = async () => {
 			detail: res.msg,
 			life: 3000
 		})
-
 		setTimeout(() => {
 			router.go(-1)
 		}, 1500)
 	}
+	isLoadingCourse.value = false
 }
 
 const handleGetRecommendList = async () => {
+	isLoadingRecommend.value = true
 	const res = await getRecommendList(courseId)
+	await delay(800)
 	if (res.code === 200) {
 		recommendList.value = res.data
 	}
+	isLoadingRecommend.value = false
 }
 
 onMounted(() => {
@@ -189,4 +200,11 @@ watch(
 )
 </script>
 
-<style scoped></style>
+<style scoped>
+.section-loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100px;
+}
+</style>

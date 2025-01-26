@@ -47,3 +47,6 @@ export function formatTimeData(data: DataItem | DataItem[]) {
 export function escapeHtml(html: string) {
 	return html.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, '')
 }
+
+// Utility function to add minimum delay
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))

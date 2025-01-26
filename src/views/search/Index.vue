@@ -6,7 +6,11 @@
 			<h2>Popular Courses</h2>
 		</div>
 
-		<div class="courses">
+		<div v-if="isLoadingCourses" class="section-loading">
+			<ProgressSpinner style="width: 30px; height: 30px" />
+		</div>
+
+		<div class="courses" v-else>
 			<div class="item" v-for="item in courseList" :key="item.id">
 				<div class="top">
 					<img :src="`/api/course/cover/${item.cover}`" alt="course" />
@@ -35,11 +39,16 @@
 				<h3>No course found</h3>
 			</div>
 		</div>
+
 		<div class="separator">
 			<h2>Blog Articles</h2>
 		</div>
 
-		<div class="articles">
+		<div v-if="isLoadingArticles" class="section-loading">
+			<ProgressSpinner style="width: 30px; height: 30px" />
+		</div>
+
+		<div class="articles" v-else>
 			<div class="item" v-for="item in articleList" :key="item.id">
 				<div class="top">
 					<img :src="`/api/article/cover/${item.cover}`" />
@@ -67,9 +76,12 @@ import { onMounted } from 'vue'
 import { ArticleParams } from '@/types/article'
 import { CourseInfoItem } from '@/types/course'
 import { useRouter } from 'vue-router'
+import ProgressSpinner from 'primevue/progressspinner'
 
 const router = useRouter()
 const keyword = ref('')
+const isLoadingCourses = ref(false)
+const isLoadingArticles = ref(false)
 
 const articleList = ref<ArticleParams[]>([])
 const courseList = ref<CourseInfoItem[]>([])
@@ -78,27 +90,53 @@ const lang = localStorage.getItem('language') || 'en-US'
 
 // 获取课程列表
 const getCourseList = async () => {
+	isLoadingCourses.value = true
 	const res = await getSearchCourseList(keyword.value)
-
+	await delay(800)
 	courseList.value = res.data
+	isLoadingCourses.value = false
 }
 
 // 获取文章列表
 const getArticleList = async () => {
+	isLoadingArticles.value = true
 	const res = await getSearchArticleList(keyword.value)
+	await delay(800)
 	articleList.value = res.data
+	isLoadingArticles.value = false
 }
 
-watchEffect(() => {
+// 添加延迟函数
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// 搜索函数
+const handleSearch = async () => {
+	await Promise.all([
+		getCourseList(),
+		getArticleList()
+	])
+}
+
+watchEffect(async () => {
 	keyword.value = router.currentRoute.value.query.keyword as string
-	getArticleList()
-	getCourseList()
+	if (keyword.value) {
+		await handleSearch()
+	}
 })
 
 onMounted(async () => {
-	getArticleList()
-	getCourseList()
+	if (keyword.value) {
+		await handleSearch()
+	}
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.section-loading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100px;
+}
+</style>
+

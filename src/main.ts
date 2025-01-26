@@ -8,6 +8,7 @@ import { i18n } from '@/lang/index'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import VueCropper from 'vue-cropper'
+import vLazy from '@/directives/lazyLoad'
 
 import 'vue-cropper/dist/index.css'
 import '@/assets/css/index.scss'
@@ -24,6 +25,8 @@ app.use(PrimeVue)
 app.use(ToastService)
 app.use(ConfirmationService)
 app.use(VueCropper)
+
+app.directive('lazy', vLazy)
 
 app.config.globalProperties.$t = i18n.global.t
 

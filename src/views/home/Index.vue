@@ -10,7 +10,7 @@
 		<div class="courses">
 			<div class="item" v-for="item in courseList" :key="item.id">
 				<div class="top">
-					<img :src="`/api/course/cover/${item.cover}`" alt="course" />
+					<img v-lazy="`/api/course/cover/${item.cover}`" alt="course" />
 					<div class="info">
 						<a :href="`/course/${item.id}`" class="title"> {{ item.name }}</a>
 						<p class="desc">{{ item.desc }}</p>
@@ -78,7 +78,7 @@
 		<div class="articles">
 			<div class="item" v-for="item in articleList" :key="item.id">
 				<div class="top">
-					<img :src="`/api/article/cover/${item.cover}`" />
+					<img v-lazy="`/api/article/cover/${item.cover}`" />
 					<h5 v-html="lang === 'en-US' ? item.english_title : item.title"></h5>
 				</div>
 				<div class="bottom">
@@ -93,12 +93,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import SearchInput from '@/components/SearchInput.vue'
 import { getIndexRecommendList, getCourseRecommendList } from '@/api/home'
-import { onMounted } from 'vue'
 import { ArticleParams } from '@/types/article'
 import { CourseInfoItem } from '@/types/course'
+import { setupScrollAnimation } from '@/utils/animation'
+import vLazy from '@/directives/lazyLoad'
 
 const articleList = ref<ArticleParams[]>([])
 const courseList = ref<CourseInfoItem[]>([])
@@ -118,10 +119,45 @@ const getArticleList = async () => {
 	courseList.value = res.data
 }
 
+// 设置滚动动画
+const setupAnimations = () => {
+	const sections = document.querySelectorAll('.comments, .articles')
+	sections.forEach((section, index) => {
+		setupScrollAnimation(section as HTMLElement, {
+			threshold: 0.3,
+			animation: 'slide-up',
+			delay: index * 200
+		})
+	})
+}
+
 onMounted(async () => {
-	getArticleList()
-	getCourseList()
+	await Promise.all([getArticleList(), getCourseList()])
+	setupAnimations()
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.animate-init {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.animate.slide-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.courses, .comments, .articles {
+  will-change: transform, opacity;
+}
+
+img {
+  transition: opacity 0.3s ease-in-out;
+}
+
+img[src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"] {
+  opacity: 0.1;
+}
+</style>
