@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="vip-banner">
-			<div class="container">
+			<div>
 				<h1>Join VIP</h1>
 				<p>Get access to all our courses, articles, and podcasts.</p>
 				<!-- 未登录 -->
@@ -107,8 +107,6 @@ const useUser = useUserStore()
 
 // 获取当前用户, localStorage.getItem('user')
 const user = ref(useUser.userInfo)
-
-console.log(user.value)
 
 // VIP 特权
 const vipPrivilege = ref([

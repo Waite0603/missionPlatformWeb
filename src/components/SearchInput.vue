@@ -25,8 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useDebounceFn } from '@vueuse/core'
 
 // 接收父组件传递的值
 const props = defineProps<{
@@ -36,6 +37,22 @@ const props = defineProps<{
 // 通过watchEffect监听路由变化
 const searchText = ref(props.keyword)
 const router = useRouter()
+
+// 使用防抖的搜索函数
+const debouncedSearch = useDebounceFn((value: string) => {
+	if (value) {
+		router.push({ path: '/search', query: { keyword: value } })
+	} else {
+		router.push({ path: '/search' })
+	}
+}, 1000)
+
+// 监听输入变化
+watch(searchText, (newValue) => {
+	debouncedSearch(newValue || '')
+})
+
+// 保留即时搜索按钮功能
 const search = () => {
 	if (searchText.value) {
 		router.push({ path: '/search', query: { keyword: searchText.value } })

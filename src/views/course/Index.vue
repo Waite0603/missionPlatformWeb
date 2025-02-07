@@ -28,8 +28,27 @@
 			</div>
 		</div>
 
-		<div v-if="isLoadingCourses" class="section-loading">
-			<ProgressSpinner style="width: 100px; height: 100px" />
+		<div v-if="isLoadingCourses" class="courses">
+			<div class="item" v-for="i in 6" :key="i">
+				<div class="top">
+					<Skeleton width="200px" height="150px" />
+					<div class="info">
+						<Skeleton width="70%" height="2rem" />
+						<Skeleton width="90%" height="1rem" class="mt-2" />
+						<Skeleton width="40%" height="1rem" class="mt-2" />
+						<Skeleton width="40%" height="1rem" class="mt-2" />
+					</div>
+				</div>
+				<div class="bottom">
+					<div class="price">
+						<Skeleton width="100px" height="1.5rem" />
+						<Skeleton width="120px" height="1.5rem" />
+					</div>
+					<div class="discount">
+						<Skeleton width="80px" height="1.5rem" />
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="courses" v-else>
@@ -68,8 +87,8 @@ import { getCategoryList, getCourseList } from '@/api/course'
 import { CategoryListItem, CourseInfoItem } from '@/types/course'
 import { onMounted } from 'vue'
 import { delay } from '@/utils/utils'
-import ProgressSpinner from 'primevue/progressspinner'
 import vLazy from '@/directives/lazyLoad'
+import Skeleton from 'primevue/skeleton'
 
 const categoryList = ref<CategoryListItem[]>([])
 const activeCategory = ref<number>(0)
@@ -109,5 +128,9 @@ onMounted(() => {
 	justify-content: center;
 	align-items: center;
 	min-height: 100px;
+}
+
+.mt-2 {
+	margin-top: 0.5rem;
 }
 </style>
